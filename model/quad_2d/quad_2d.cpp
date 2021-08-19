@@ -26,9 +26,12 @@ void Quad2D::euler_step() {
 
 void Quad2D::sensor_read() {
 
-  set_x_mes(x);
-  set_x_dot_mes(x_dot);
+  x_mes_ = x;
+  x_dot_mes_ = x_dot;
 
-  set_z_mes(z);
-  set_z_dot_mes(z_dot);
+  z_mes_ = z;
+  z_dot_mes_ = z_dot;
+
+  beta_mes_ = beta;
+  beta_dot_mes_ = beta_dot;
 };

@@ -50,7 +50,6 @@ private:
   // Euler integration timestep
   constexpr static float dt = 0.01;
 
-protected:
   // Measured states ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   float x_mes_ = 0;
   float x_dot_mes_ = 0;
@@ -86,15 +85,15 @@ public:
   float beta_dot_mes() const { return beta_dot_mes_; }
 
   /// Setter function
-  void set_x_mes(float x_mes) { x_mes_ = x_mes; }
-  /// Setter function
-  void set_x_dot_mes(float x_mes) { x_mes_ = x_mes; }
-  /// Setter function
-  void set_z_mes(float z_mes) { z_mes_ = z_mes; }
-  /// Setter function
-  void set_z_dot_mes(float z_mes) { z_mes_ = z_mes; }
-  /// Setter function
-  void set_beta_mes(float beta_mes) { beta_mes_ = beta_mes; }
-  /// Setter function
-  void set_beta_dot_mes(float beta_mes) { beta_mes_ = beta_mes; }
+  // void set_x_mes(float x_mes) { x_mes_ = x_mes; }
+  // /// Setter function
+  // void set_x_dot_mes(float x_mes) { x_mes_ = x_mes; }
+  // /// Setter function
+  // void set_z_mes(float z_mes) { z_mes_ = z_mes; }
+  // /// Setter function
+  // void set_z_dot_mes(float z_mes) { z_mes_ = z_mes; }
+  // /// Setter function
+  // void set_beta_mes(float beta_mes) { beta_mes_ = beta_mes; }
+  // /// Setter function
+  // void set_beta_dot_mes(float beta_mes) { beta_mes_ = beta_mes; }
 };
