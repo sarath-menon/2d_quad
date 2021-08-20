@@ -47,7 +47,7 @@ private:
   constexpr static float g = 9.81;
 
   // Air drag coefficient
-  constexpr static float drag_coeff = 0.2;
+  constexpr static float drag_coeff = 1.2;
 
   // Maximum thrust can be produced by the motors
   constexpr static float thrust_max_ = 25;

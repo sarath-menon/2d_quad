@@ -15,13 +15,13 @@ int main() {
   float thrust_input = 0.0;
 
   // PID Gains
-  float k_p = 0;
+  float k_p = 0.5;
   float k_i = 0;
   float k_d = 0;
 
   // Euler integration timestep
   constexpr static float dt = 0.01;
-  constexpr static float euler_steps = 100;
+  constexpr static float euler_steps = 1000;
 
   // feedforward thrust = - g
   float ff_thrust = 9.81;
@@ -32,8 +32,11 @@ int main() {
 
     // Compute control input
     float altitude_error = altitude_target - quad.z_mes();
-    thrust_input =
-        ff_thrust + fmin(pid(altitude_error, k_p, k_i, k_d), quad.thrust_max());
+    float pid_output = pid(altitude_error, k_p, k_i, k_d, dt);
+    // Motors have a maximum speed limit
+    thrust_input = fmin(ff_thrust + pid_output, quad.thrust_max());
+    // Motors cant be rotated in reverse during flight
+    thrust_input = fmax(thrust_input, 0);
 
     // Diplay the control input and error
     std::cout << "Thrust input:" << thrust_input << std::endl;
