@@ -1,9 +1,10 @@
 
 
-add_executable(2d_quad 
+add_executable(quad_2d
 main.cpp
 )
 
-target_link_libraries(2d_quad PRIVATE
+target_link_libraries(quad_2d PRIVATE
 model_lib
+mahi::gui
 )

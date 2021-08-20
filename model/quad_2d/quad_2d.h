@@ -62,7 +62,7 @@ private:
 
 public:
   /// Dynamics of the 2D quadcopter
-  void dynamics();
+  void dynamics(float thrust_input, float torque_input);
 
   // Numerical integration
   void euler_step();
@@ -76,9 +76,9 @@ public:
   /// Getter function
   float x_dot_mes() const { return x_dot_mes_; }
   /// Getter function
-  float z_mes() const { return x_mes_; }
+  float z_mes() const { return z_mes_; }
   /// Getter function
-  float z_dot_mes() const { return x_dot_mes_; }
+  float z_dot_mes() const { return z_dot_mes_; }
   /// Getter function
   float beta_mes() const { return beta_mes_; }
   /// Getter function
