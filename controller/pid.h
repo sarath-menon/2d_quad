@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 
 float pid(const float e, const float k_p, const float k_i, const float k_d) {
   // e -> error
@@ -18,7 +19,7 @@ float pid(const float e, const float k_p, const float k_i, const float k_d) {
   // e_d -> Error derivative error
   e_d = (e - e_prev) / dt;
 
-  float control_output = e * k_p + e_i * k_i + e_d * k_d;
+  float control_output = fmax(0, e * k_p + e_i * k_i + e_d * k_d);
 
   // Set current values as prev values
   prev_time = current_time;

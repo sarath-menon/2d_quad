@@ -11,10 +11,16 @@ void Quad2D::dynamics(float thrust_input, float torque_input) {
   x_ddot = actual_thrust * sin(beta) - drag_coeff * x_dot;
 
   // z_dot = z_dot_mes();
-  z_ddot = actual_thrust * cos(beta) - g - drag_coeff * z_dot;
+  if (z < 0) {
+    // To prevent freefall into the ground
+    z = 0;
+    z_dot = 0;
+    z_ddot = 0;
+  } else
+    z_ddot = actual_thrust * cos(beta) - g - drag_coeff * fabs(z_dot);
 }
 
-void Quad2D::euler_step() {
+void Quad2D::euler_step(float dt) {
   // Declare dt for now
 
   // Translation
@@ -43,6 +49,6 @@ void Quad2D::sensor_read() {
   beta_mes_ = beta;
   beta_dot_mes_ = beta_dot;
 
-  std::cout << "z_mes_after_sensor_read: " << z << std::endl;
-  std::cout << "z_dot_mes_after_sensor_read: " << z_dot << std::endl;
+  // std::cout << "z_mes_after_sensor_read: " << z << std::endl;
+  // std::cout << "z_dot_mes_after_sensor_read: " << z_dot << std::endl;
 };

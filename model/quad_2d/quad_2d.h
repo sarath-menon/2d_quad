@@ -7,16 +7,16 @@ class Quad2D {
 private:
   // Position and Orientation ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Position
-  float x = 0;
-  float z = 0;
+  float x = 0; // m
+  float z = 2; // m
 
   // Velocities
-  float x_dot = 0;
-  float z_dot = 0;
+  float x_dot = 0;   // m/s
+  float z_dot = 5.5; // m/s
 
   // Accelerations
-  float x_ddot = 0;
-  float z_ddot = 0;
+  float x_ddot = 0; // m/s^2
+  float z_ddot = 0; // m/s^2
 
   // Orientation
   float beta = 0;
@@ -46,9 +46,8 @@ private:
   // Air drag coefficient
   constexpr static float drag_coeff = 0.2;
 
-  // Variables for numerical integration of the dynamics ODE ~~~~~~~~~~~~~
-  // Euler integration timestep
-  constexpr static float dt = 0.01;
+  // Maximum thrust can be produced by the motors
+  constexpr static float thrust_max_ = 25;
 
   // Measured states ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   float x_mes_ = 0;
@@ -65,7 +64,7 @@ public:
   void dynamics(float thrust_input, float torque_input);
 
   // Numerical integration
-  void euler_step();
+  void euler_step(float dt);
 
   // Get sensor measurements by adding artifical noise to the sensors
   void sensor_read();
@@ -83,6 +82,8 @@ public:
   float beta_mes() const { return beta_mes_; }
   /// Getter function
   float beta_dot_mes() const { return beta_dot_mes_; }
+  /// Getter function
+  float thrust_max() const { return thrust_max_; }
 
   /// Setter function
   // void set_x_mes(float x_mes) { x_mes_ = x_mes; }
