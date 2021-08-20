@@ -15,13 +15,13 @@ int main() {
   float thrust_input = 0.0;
 
   // PID Gains
-  float k_p = 4.5;
+  float k_p = 6.5;
   float k_i = 0;
-  float k_d = 4;
+  float k_d = 2;
 
   // Euler integration timestep
   constexpr static float dt = 0.01;
-  constexpr static float euler_steps = 1000;
+  constexpr static float euler_steps = 400;
 
   // feedforward thrust = - g
   float ff_thrust = 9.81;
