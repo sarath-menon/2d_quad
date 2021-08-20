@@ -19,8 +19,9 @@ int main() {
   float k_i = 0;
   float k_d = 2;
 
-  // Euler integration timestep
+  // dt -> Current timestep - Previous timestep
   constexpr static float dt = 0.01;
+  // Number of Euler integration steps
   constexpr static float euler_steps = 400;
 
   // feedforward thrust = - g
@@ -30,9 +31,9 @@ int main() {
     // Get system state
     quad.sensor_read();
 
-    // Compute control input
     float altitude_error = altitude_target - quad.z_mes();
     float pid_output = pid(altitude_error, k_p, k_i, k_d, dt);
+
     // Motors have a maximum speed limit
     thrust_input = fmin(ff_thrust + pid_output, quad.thrust_max());
     // Motors cant be rotated in reverse during flight
