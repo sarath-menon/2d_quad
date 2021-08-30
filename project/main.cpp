@@ -12,17 +12,21 @@ int main() {
   MyApp app;
 
   float altitude_target = 5;
-  float thrust_input = 0.0;
+  float thrust_command = 0.0;
 
-  // PID Gains
-  float k_p = 6.5;
-  float k_i = 0;
-  float k_d = 2;
+  // Altitude PID Gains
+  float k_p__z = 6.5;
+  float k_i__z = 0;
+  float k_d__z = 2;
 
-  // dt -> Current timestep - Previous timestep
+  // Translation PID Gains
+  float k_p__x = 6.5;
+  float k_i__x = 0;
+  float k_d__x = 2;
+
+  // Euler integration timestep
   constexpr static float dt = 0.01;
-  // Number of Euler integration steps
-  constexpr static float euler_steps = 400;
+  constexpr static float euler_steps = 1000;
 
   // feedforward thrust = - g
   float ff_thrust = 9.81;
@@ -31,26 +35,27 @@ int main() {
     // Get system state
     quad.sensor_read();
 
+    // Compute control input
     float altitude_error = altitude_target - quad.z_mes();
-    float pid_output = pid(altitude_error, k_p, k_i, k_d, dt);
-
+    float pid_output = pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
     // Motors have a maximum speed limit
-    thrust_input = fmin(ff_thrust + pid_output, quad.thrust_max());
+    thrust_command = fmin(ff_thrust + pid_output, quad.thrust_max());
     // Motors cant be rotated in reverse during flight
-    thrust_input = fmax(thrust_input, 0);
+    thrust_command = fmax(thrust_command, 0);
 
     // Diplay the control input and error
-    std::cout << "Thrust input:" << thrust_input << std::endl;
+    std::cout << "Thrust command:" << thrust_command << std::endl;
     std::cout << "Altitude error:" << altitude_error << std::endl;
 
     // Apply control input and compute the change
-    quad.dynamics(thrust_input, 0);
+    quad.dynamics(thrust_command, 0);
     quad.euler_step(dt);
 
     // Set variables for plotting
     plot_var::z_plot[i] = quad.z_mes();
-    plot_var::actuator_plot[i] = thrust_input;
-    plot_var::error_plot[i] = altitude_error;
+    // plot_var::x_plot[i] = quad.x_mes();
+    plot_var::actuator_plot[i] = thrust_command;
+    plot_var::altitude_error_plot[i] = altitude_error;
     plot_var::t_plot[i] = i * dt;
 
     std::cout << std::endl;
