@@ -7,7 +7,7 @@ void Quad2D::dynamics(float thrust_input, float torque_input) {
   actual_thrust = thrust_input;
 
   // x_dot = x_dot_mes();
-  x_ddot = actual_thrust * sin(beta) - drag_coeff * x_dot;
+  x_ddot = actual_thrust * sin(beta) - drag_coeff_ * x_dot;
 
   // z_dot = z_dot_mes();
   if (z < 0) {
@@ -16,11 +16,10 @@ void Quad2D::dynamics(float thrust_input, float torque_input) {
     z_dot = 0;
     z_ddot = 0;
   } else
-    z_ddot = actual_thrust * cos(beta) - g - drag_coeff * fabs(z_dot);
+    z_ddot = actual_thrust * cos(beta) - g - drag_coeff_ * fabs(z_dot);
 }
 
 void Quad2D::euler_step(float dt) {
-  // Declare dt for now
 
   // Translation
   x = x + x_dot * dt;
@@ -52,28 +51,15 @@ void Quad2D::sensor_read() {
   // std::cout << "z_dot_mes_after_sensor_read: " << z_dot << std::endl;
 };
 
-void Quad2D::set_parameters(std::string parameter_path) {
+void Quad2D::set_parameters() {
 
-  YAML::Node yaml_file = YAML::LoadFile("project/parameters.yaml");
+  YAML::Node yaml_file = YAML::LoadFile("model/parameters.yaml");
 
-  mass_ = yaml_file["mass"].as<float>(); // [kg]
-
-  float altitude_target = 5;
-  float thrust_command = 0.0;
-
-  // Altitude PID Gains
-  float k_p__z = 6.5;
-  float k_i__z = 0;
-  float k_d__z = 2;
-
-  // Translation PID Gains
-  float k_p__x = 6.5;
-  float k_i__x = 0;
-  float k_d__x = 2;
-
-  // Euler integration timestep
-  constexpr static float dt = 0.01;
-  constexpr static float euler_steps = 1000;
+  mass_ = yaml_file["mass"].as<float>();             // [kg]
+  arm_length_ = yaml_file["arm_length"].as<float>(); // [m]
+  drag_coeff_ = yaml_file["drag_coeff"].as<float>(); // [kg]
+  thrust_max_ = yaml_file["thrust_max"].as<float>(); // [kg]
+  thrust_min_ = yaml_file["thrust_min"].as<float>(); // [kg]
 
   // feedforward thrust = - g
   float ff_thrust = 9.81;

@@ -13,7 +13,7 @@ int main() {
   MyApp app;
 
   // Set quadcopter parameters
-  quad.set_parameters("project/parameters.yaml");
+  quad.set_parameters();
 
   for (int i = 0; i < euler_steps; i++) {
 

@@ -1,0 +1,11 @@
+# Controller Parameters:
+
+# Altitude PID Gains
+k_p__z: 6.5
+k_i__z: 0
+k_d__z: 2
+
+# Translation PID Gains
+k_p__x: 6.5
+k_i__x: 0
+k_d__x: 2
