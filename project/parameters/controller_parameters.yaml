@@ -3,7 +3,7 @@
 # Altitude PID Gains
 k_p__z: 6.5
 k_i__z: 0
-k_d__z: 2
+k_d__z: 3.4
 
 # Translation PID Gains
 k_p__x: 6.5
