@@ -16,20 +16,18 @@ int main() {
   // Set quadcopter parameters
   quad.set_initial_conditions("project/parameters/initial_conditions.yaml");
 
-  // Initial Conditions
-  // float thrust_command = 0;
-
   for (int i = 0; i < euler_steps; i++) {
 
     // Get system state
     quad.sensor_read();
+
     // Compute error
     float altitude_error = altitude_target - quad.z_mes();
 
     // Compute control input
     float thrust_command = pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
 
-    // Motors have a maximum  and minimum speed limit
+    // Quadcopter Motors have a maximum and minimum speed limit
     thrust_command =
         limit(ff_thrust + thrust_command, quad.thrust_max(), quad.thrust_min());
 
