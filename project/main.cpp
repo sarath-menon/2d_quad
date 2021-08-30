@@ -2,6 +2,7 @@
 #include "pid.h"
 #include "plot.h"
 #include "quad_2d.h"
+#include "set_values.h"
 #include <iostream>
 #include <math.h>
 
@@ -11,37 +12,22 @@ int main() {
   // Initialize visualizer
   MyApp app;
 
-  float altitude_target = 5;
-  float thrust_command = 0.0;
-
-  // Altitude PID Gains
-  float k_p__z = 6.5;
-  float k_i__z = 0;
-  float k_d__z = 2;
-
-  // Translation PID Gains
-  float k_p__x = 6.5;
-  float k_i__x = 0;
-  float k_d__x = 2;
-
-  // Euler integration timestep
-  constexpr static float dt = 0.01;
-  constexpr static float euler_steps = 1000;
-
-  // feedforward thrust = - g
-  float ff_thrust = 9.81;
+  // Set quadcopter parameters
+  quad.set_parameters("project/parameters.yaml");
 
   for (int i = 0; i < euler_steps; i++) {
+
     // Get system state
     quad.sensor_read();
 
-    // Compute control input
+    // Compute error
     float altitude_error = altitude_target - quad.z_mes();
+    // Compute control input
     float pid_output = pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
     // Motors have a maximum speed limit
-    thrust_command = fmin(ff_thrust + pid_output, quad.thrust_max());
+    thrust_command = std::fmin(ff_thrust + pid_output, quad.thrust_max());
     // Motors cant be rotated in reverse during flight
-    thrust_command = fmax(thrust_command, 0);
+    thrust_command = std::fmax(thrust_command, quad.thrust_min());
 
     // Diplay the control input and error
     std::cout << "Thrust command:" << thrust_command << std::endl;

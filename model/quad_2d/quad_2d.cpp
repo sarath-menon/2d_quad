@@ -1,5 +1,4 @@
 #include "quad_2d.h"
-#include <iostream>
 
 /// Dynamics of the 2D quadcopter
 void Quad2D::dynamics(float thrust_input, float torque_input) {
@@ -52,3 +51,30 @@ void Quad2D::sensor_read() {
   // std::cout << "z_mes_after_sensor_read: " << z << std::endl;
   // std::cout << "z_dot_mes_after_sensor_read: " << z_dot << std::endl;
 };
+
+void Quad2D::set_parameters(std::string parameter_path) {
+
+  YAML::Node yaml_file = YAML::LoadFile("project/parameters.yaml");
+
+  mass_ = yaml_file["mass"].as<float>(); // [kg]
+
+  float altitude_target = 5;
+  float thrust_command = 0.0;
+
+  // Altitude PID Gains
+  float k_p__z = 6.5;
+  float k_i__z = 0;
+  float k_d__z = 2;
+
+  // Translation PID Gains
+  float k_p__x = 6.5;
+  float k_i__x = 0;
+  float k_d__x = 2;
+
+  // Euler integration timestep
+  constexpr static float dt = 0.01;
+  constexpr static float euler_steps = 1000;
+
+  // feedforward thrust = - g
+  float ff_thrust = 9.81;
+}
