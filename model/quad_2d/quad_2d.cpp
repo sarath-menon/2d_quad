@@ -32,8 +32,8 @@ void Quad2D::euler_step(float dt) {
   beta = beta + beta_dot * dt;
   beta_dot = beta_dot + beta_ddot * dt;
 
-  std::cout << "z_after_euler_step: " << z << std::endl;
-  std::cout << "z_dot_after_euler_step: " << z_dot << std::endl;
+  // std::cout << "z_after_euler_step: " << z << std::endl;
+  // std::cout << "z_dot_after_euler_step: " << z_dot << std::endl;
 }
 
 void Quad2D::sensor_read() {

@@ -41,21 +41,25 @@ int main() {
     float angle_error = angle_command - quad.beta_mes();
 
     float torque_command =
-        vertical_pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
+        vertical_pid(angle_error, k_p__z, k_i__z, k_d__z, dt);
 
     // Apply control input and compute the change
     quad.dynamics(thrust_command, 0);
     quad.euler_step(dt);
 
     // Diplay the control input and error
-    std::cout << "Thrust command:" << thrust_command << std::endl;
-    std::cout << "Altitude error:" << altitude_error << std::endl;
+    // std::cout << "Thrust command:" << thrust_command << std::endl;
+    // std::cout << "Altitude error:" << altitude_error << std::endl;
+    std::cout << "Angle Command:" << angle_command << std::endl;
+    std::cout << "Angle error:" << angle_error << std::endl;
+    std::cout << "Torque Command:" << torque_command << std::endl;
+    std::cout << "Vertical error:" << vertical_error << std::endl;
 
     // Set variables for plotting
     plot_var::z_plot[i] = quad.z_mes();
     plot_var::x_plot[i] = quad.x_mes();
-    plot_var::actuator_plot[i] = thrust_command;
-    // plot_var::altitude_error_plot[i] = altitude_error;
+    plot_var::thrust_plot[i] = thrust_command;
+    plot_var::torque_plot[i] = torque_command;
     plot_var::t_plot[i] = i * dt;
 
     std::cout << std::endl;

@@ -9,7 +9,7 @@ const int euler_timesteps = 500;
 
 // Variables to be plotted
 float z_plot[euler_timesteps], x_plot[euler_timesteps],
-    actuator_plot[euler_timesteps], altitude_error_plot[euler_timesteps],
+    thrust_plot[euler_timesteps], torque_plot[euler_timesteps],
     t_plot[euler_timesteps];
 
 // Plot axes limits
@@ -48,7 +48,7 @@ public:
     ImPlot::PushColormap(ImPlotColormap_Pastel);
     ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, plot_var::y_min,
                               plot_var::y_max);
-    // Altitude plot
+    // Translation plot
     if (ImPlot::BeginPlot("Vertical vs Time", "time", "x distance",
                           ImVec2(-1, 200))) {
       ImPlot::PlotLine("vertical distance", plot_var::t_plot, plot_var::x_plot,
@@ -61,10 +61,21 @@ public:
     ImPlot::PushColormap(ImPlotColormap_Pastel);
     if (ImPlot::BeginPlot("Thrust input vs Time", "time", "thrust Input",
                           ImVec2(-1, 200))) {
-      ImPlot::PlotLine("thrust input", plot_var::t_plot,
-                       plot_var::actuator_plot, plot_var::euler_timesteps);
+      ImPlot::PlotLine("thrust input", plot_var::t_plot, plot_var::thrust_plot,
+                       plot_var::euler_timesteps);
       ImPlot::EndPlot();
     }
+
+    // Torque input plot
+    ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, -40, 40);
+    ImPlot::PushColormap(ImPlotColormap_Pastel);
+    if (ImPlot::BeginPlot("Torque input vs Time", "time", "Torque Input",
+                          ImVec2(-1, 200))) {
+      ImPlot::PlotLine("torque input", plot_var::t_plot, plot_var::torque_plot,
+                       plot_var::euler_timesteps);
+      ImPlot::EndPlot();
+    }
+
     // // Error plot
     // ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max,
     //                           -plot_var::y_max, plot_var::y_max);

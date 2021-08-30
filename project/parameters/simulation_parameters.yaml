@@ -2,7 +2,7 @@
 
 # Altitude Target
 altitude_target: 5
-vertical_target: 0
+vertical_target: 2
 
 # Euler Integration Timestep
 dt: 0.01
