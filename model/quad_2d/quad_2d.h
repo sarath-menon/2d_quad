@@ -8,6 +8,9 @@
 class Quad2D {
 
 private:
+  // Load YAML file containing quad properties
+  YAML::Node yaml_file = YAML::LoadFile("model/parameters.yaml");
+
   // Position and Orientation ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Position
   float x = 0; // m
@@ -44,19 +47,19 @@ private:
 
   // Variables for dynamics function ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Mass of the quadcopter
-  float mass_ = 0;
+  float mass_ = yaml_file["mass"].as<float>();
 
   // Gravitational constant
   constexpr static float g = 9.81;
 
   // Air drag coefficient
-  float drag_coeff_ = 0;
+  float drag_coeff_ = yaml_file["drag_coeff"].as<float>();
 
   // Maximum thrust can be produced by the motors
-  float thrust_max_ = 0;
+  float thrust_max_ = yaml_file["thrust_max"].as<float>();
 
   // Maximum thrust can be produced by the motors
-  float thrust_min_ = 0;
+  float thrust_min_ = yaml_file["thrust_min"].as<float>();
 
   // Measured states ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   float x_mes_ = 0;
@@ -70,7 +73,7 @@ private:
 
 public:
   /// Set quadcopter parameters
-  void set_parameters();
+  void set_initial_conditions(std::string path);
 
   /// Dynamics of the 2D quadcopter
   void dynamics(float thrust_input, float torque_input);

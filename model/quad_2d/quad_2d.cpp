@@ -51,16 +51,13 @@ void Quad2D::sensor_read() {
   // std::cout << "z_dot_mes_after_sensor_read: " << z_dot << std::endl;
 };
 
-void Quad2D::set_parameters() {
+void Quad2D::set_initial_conditions(std::string path) {
 
-  YAML::Node yaml_file = YAML::LoadFile("model/parameters.yaml");
+  // YAML::Node yaml_file = YAML::LoadFile(std::string path);
 
-  mass_ = yaml_file["mass"].as<float>();             // [kg]
-  arm_length_ = yaml_file["arm_length"].as<float>(); // [m]
-  drag_coeff_ = yaml_file["drag_coeff"].as<float>(); // [kg]
-  thrust_max_ = yaml_file["thrust_max"].as<float>(); // [kg]
-  thrust_min_ = yaml_file["thrust_min"].as<float>(); // [kg]
-
-  // feedforward thrust = - g
-  float ff_thrust = 9.81;
+  // mass_ = yaml_file["mass"].as<float>();             // [kg]
+  // arm_length_ = yaml_file["arm_length"].as<float>(); // [m]
+  // drag_coeff_ = yaml_file["drag_coeff"].as<float>(); // [kg]
+  // thrust_max_ = yaml_file["thrust_max"].as<float>(); // [kg]
+  // thrust_min_ = yaml_file["thrust_min"].as<float>(); // [kg]
 }

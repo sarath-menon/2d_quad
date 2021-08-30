@@ -13,10 +13,9 @@ int main() {
   MyApp app;
 
   // Set quadcopter parameters
-  quad.set_parameters();
+  quad.set_initial_conditions("project/parameters/initial_conditions.yaml");
 
   // Initial Conditions
-
   float thrust_command = 0;
 
   for (int i = 0; i < euler_steps; i++) {
