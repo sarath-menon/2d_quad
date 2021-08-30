@@ -15,3 +15,6 @@ thrust_max: 25
 
 # Maximum thrust can be produced by the motors
 thrust_min: 0
+
+# Maximum roll angle
+roll_max: 0.5
