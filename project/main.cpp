@@ -28,7 +28,7 @@ int main() {
 
     // Compute control input
     float thrust_command =
-        position_pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
+        altitude_pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
 
     // Quadcopter Motors have a maximum and minimum speed limit
     thrust_command =
@@ -36,7 +36,12 @@ int main() {
 
     // Inner Loop: Angle Control
     float angle_command =
-        angle_pid(vertical_error, k_p__x, k_i__x, k_d__x, dt / 2);
+        -angle_pid(vertical_error, k_p__b, k_i__b, k_d__b, dt) / 9.81;
+
+    float angle_error = angle_command - quad.beta_mes();
+
+    float torque_command =
+        vertical_pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
 
     // Apply control input and compute the change
     quad.dynamics(thrust_command, 0);

@@ -62,7 +62,7 @@ private:
   float thrust_min_ = yaml_file["thrust_min"].as<float>();
 
   // Maximum thrust can be produced by the motors
-  const float torque_max_ = thrust_max_ * arm_length_;
+  const float torque_max_ = 2 * thrust_max_ * arm_length_;
 
   // Maximum thrust can be produced by the motors
   const float torque_min_ = thrust_min_ * arm_length_;

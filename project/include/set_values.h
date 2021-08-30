@@ -16,6 +16,11 @@ const float k_p__x = controller_yaml_file["k_p__z"].as<float>();
 const float k_i__x = controller_yaml_file["k_i__z"].as<float>();
 const float k_d__x = controller_yaml_file["k_d__z"].as<float>();
 
+// Angle PID Gains
+const float k_p__b = controller_yaml_file["k_p__b"].as<float>();
+const float k_i__b = controller_yaml_file["k_i__b"].as<float>();
+const float k_d__b = controller_yaml_file["k_d__b"].as<float>();
+
 // feedforward thrust = - g
 const float ff_thrust = 9.81;
 
