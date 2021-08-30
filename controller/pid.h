@@ -4,8 +4,6 @@
 float pid(const float e, const float k_p, const float k_i, const float k_d,
           const float dt) {
 
-  // e -> error
-
   // Integral error
   static float e_i = 0;
   // Derivative erroe
@@ -20,7 +18,6 @@ float pid(const float e, const float k_p, const float k_i, const float k_d,
   float control_output = e * k_p + e_i * k_i + e_d * k_d;
 
   // Set current values as prev values
-  // prev_time = current_time;
   e_prev = e;
 
   return control_output;

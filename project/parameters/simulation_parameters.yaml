@@ -1,0 +1,10 @@
+# Controller Parameters:
+
+# Altitude Target
+altitude_target: 5
+
+# Euler Integration Timestep
+dt: 0.01
+
+# Number of timesteps to be simulated
+euler_steps: 500

@@ -8,6 +8,7 @@ find_package(yaml-cpp CONFIG REQUIRED)
 
 
 include_directories(controller)
+
 add_subdirectory(model)
 add_subdirectory(project)
 add_subdirectory(external)

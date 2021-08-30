@@ -15,13 +15,17 @@ int main() {
   // Set quadcopter parameters
   quad.set_parameters();
 
+  // Initial Conditions
+
+  float thrust_command = 0;
+
   for (int i = 0; i < euler_steps; i++) {
 
     // Get system state
     quad.sensor_read();
-
     // Compute error
     float altitude_error = altitude_target - quad.z_mes();
+
     // Compute control input
     float pid_output = pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
     // Motors have a maximum speed limit
@@ -29,13 +33,13 @@ int main() {
     // Motors cant be rotated in reverse during flight
     thrust_command = std::fmax(thrust_command, quad.thrust_min());
 
-    // Diplay the control input and error
-    std::cout << "Thrust command:" << thrust_command << std::endl;
-    std::cout << "Altitude error:" << altitude_error << std::endl;
-
     // Apply control input and compute the change
     quad.dynamics(thrust_command, 0);
     quad.euler_step(dt);
+
+    // Diplay the control input and error
+    std::cout << "Thrust command:" << thrust_command << std::endl;
+    std::cout << "Altitude error:" << altitude_error << std::endl;
 
     // Set variables for plotting
     plot_var::z_plot[i] = quad.z_mes();
