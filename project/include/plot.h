@@ -5,12 +5,12 @@ using namespace mahi::gui;
 using namespace mahi::util;
 
 namespace plot_var {
-const int euler_timesteps = 500;
+const int euler_timesteps = 10;
 
 // Variables to be plotted
 float z_plot[euler_timesteps], x_plot[euler_timesteps],
     thrust_plot[euler_timesteps], torque_plot[euler_timesteps],
-    t_plot[euler_timesteps];
+    beta_plot[euler_timesteps], t_plot[euler_timesteps];
 
 // Plot axes limits
 const int x_min = 0;
@@ -72,6 +72,16 @@ public:
     if (ImPlot::BeginPlot("Torque input vs Time", "time", "Torque Input",
                           ImVec2(-1, 200))) {
       ImPlot::PlotLine("torque input", plot_var::t_plot, plot_var::torque_plot,
+                       plot_var::euler_timesteps);
+      ImPlot::EndPlot();
+    }
+
+    // Beta plot
+    ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, -30, 30);
+    ImPlot::PushColormap(ImPlotColormap_Pastel);
+    if (ImPlot::BeginPlot("Roll angle vs Time", "time", "roll angle",
+                          ImVec2(-1, 200))) {
+      ImPlot::PlotLine("torque input", plot_var::t_plot, plot_var::beta_plot,
                        plot_var::euler_timesteps);
       ImPlot::EndPlot();
     }

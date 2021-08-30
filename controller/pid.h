@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <math.h>
 
 float altitude_pid(const float e, const float k_p, const float k_i,
@@ -45,11 +46,12 @@ float vertical_pid(const float e, const float k_p, const float k_i,
   return control_output;
 }
 
-float angle_pid(const float e, const float k_p, const float k_i,
-                const float k_d, const float dt) {
+float roll_pid(const float e, const float k_p, const float k_i, const float k_d,
+               const float dt) {
 
   // Integral error
   static float e_i = 0;
+
   // Derivative erroe
   static float e_d = 0;
   // e_prev -> Previous error

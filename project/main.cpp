@@ -36,21 +36,24 @@ int main() {
 
     // Inner Loop: Angle Control
     float angle_command =
-        -angle_pid(vertical_error, k_p__b, k_i__b, k_d__b, dt) / 9.81;
+        -vertical_pid(vertical_error, k_p__x, k_i__x, k_d__x, dt) / 9.81;
 
     // Quadcopter Motors have a maximum and minimum speed limit
     angle_command = limit(angle_command, quad.roll_max(), -quad.roll_max());
 
+    // Just for debugging
+    angle_command = 20;
+
     float angle_error = angle_command - quad.beta_mes();
 
-    float torque_command =
-        vertical_pid(angle_error, k_p__z, k_i__z, k_d__z, dt);
+    float torque_command = roll_pid(angle_error, k_p__b, k_i__b, k_d__b, dt);
 
     torque_command =
         limit(torque_command, quad.torque_max(), -quad.torque_max());
 
     // Apply control input and compute the change
-    quad.dynamics(thrust_command, torque_command);
+    // quad.dynamics(thrust_command, torque_command);
+    quad.dynamics(ff_thrust, torque_command);
     quad.euler_step(dt);
 
     // Diplay the control input and error
@@ -66,6 +69,7 @@ int main() {
     plot_var::x_plot[i] = quad.x_mes();
     plot_var::thrust_plot[i] = thrust_command;
     plot_var::torque_plot[i] = torque_command;
+    plot_var::beta_plot[i] = torque_command;
     plot_var::t_plot[i] = i * dt;
 
     std::cout << std::endl;

@@ -11,6 +11,6 @@ k_i__x: 0
 k_d__x: 2
 
 # Angle PID Gains
-k_p__b: 10
+k_p__b: 0
 k_i__b: 0
-k_d__b: 4
+k_d__b: 0

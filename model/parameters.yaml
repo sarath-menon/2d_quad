@@ -1,7 +1,7 @@
 # General Rigid Body Parameters:
 
 # Mass of the quadcopter
-mass: 2.1 #[kg]
+mass: 0.7 #[kg]
 
 # Geometrical properties
 arm_length: 0.171
