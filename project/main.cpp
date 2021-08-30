@@ -16,6 +16,7 @@ int main() {
   // Set quadcopter parameters
   quad.set_initial_conditions("project/parameters/initial_conditions.yaml");
 
+  // Outer Loop: Position Control
   for (int i = 0; i < euler_steps; i++) {
 
     // Get system state
@@ -23,13 +24,19 @@ int main() {
 
     // Compute error
     float altitude_error = altitude_target - quad.z_mes();
+    float vertical_error = vertical_target - quad.x_mes();
 
     // Compute control input
-    float thrust_command = pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
+    float thrust_command =
+        position_pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
 
     // Quadcopter Motors have a maximum and minimum speed limit
     thrust_command =
         limit(ff_thrust + thrust_command, quad.thrust_max(), quad.thrust_min());
+
+    // Inner Loop: Angle Control
+    float angle_command =
+        angle_pid(vertical_error, k_p__x, k_i__x, k_d__x, dt / 2);
 
     // Apply control input and compute the change
     quad.dynamics(thrust_command, 0);

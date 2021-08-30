@@ -25,6 +25,7 @@ YAML::Node sim_yaml_file =
     YAML::LoadFile("project/parameters/simulation_parameters.yaml");
 
 const float altitude_target = sim_yaml_file["altitude_target"].as<float>();
+const float vertical_target = sim_yaml_file["vertical_target"].as<float>();
 
 // Euler integration timestep
 const float dt = sim_yaml_file["dt"].as<float>();
