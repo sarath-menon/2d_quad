@@ -48,9 +48,9 @@ int main() {
 
     // Set variables for plotting
     plot_var::z_plot[i] = quad.z_mes();
-    // plot_var::x_plot[i] = quad.x_mes();
+    plot_var::x_plot[i] = quad.x_mes();
     plot_var::actuator_plot[i] = thrust_command;
-    plot_var::altitude_error_plot[i] = altitude_error;
+    // plot_var::altitude_error_plot[i] = altitude_error;
     plot_var::t_plot[i] = i * dt;
 
     std::cout << std::endl;

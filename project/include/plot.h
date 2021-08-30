@@ -8,8 +8,9 @@ namespace plot_var {
 const int euler_timesteps = 500;
 
 // Variables to be plotted
-float z_plot[euler_timesteps], actuator_plot[euler_timesteps],
-    altitude_error_plot[euler_timesteps], t_plot[euler_timesteps];
+float z_plot[euler_timesteps], x_plot[euler_timesteps],
+    actuator_plot[euler_timesteps], altitude_error_plot[euler_timesteps],
+    t_plot[euler_timesteps];
 
 // Plot axes limits
 const int x_min = 0;
@@ -43,6 +44,18 @@ public:
       ImPlot::EndPlot();
     }
 
+    ImGui::DragFloat("Alpha", &alpha, 0.01f, 0, 1);
+    ImPlot::PushColormap(ImPlotColormap_Pastel);
+    ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, plot_var::y_min,
+                              plot_var::y_max);
+    // Altitude plot
+    if (ImPlot::BeginPlot("Vertical vs Time", "time", "x distance",
+                          ImVec2(-1, 200))) {
+      ImPlot::PlotLine("vertical distance", plot_var::t_plot, plot_var::x_plot,
+                       plot_var::euler_timesteps);
+      ImPlot::EndPlot();
+    }
+
     // Thrust input plot
     ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, 0, 25);
     ImPlot::PushColormap(ImPlotColormap_Pastel);
@@ -52,15 +65,17 @@ public:
                        plot_var::actuator_plot, plot_var::euler_timesteps);
       ImPlot::EndPlot();
     }
-    // Error plot
-    ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max,
-                              -plot_var::y_max, plot_var::y_max);
-    ImPlot::PushColormap(ImPlotColormap_Pastel);
-    if (ImPlot::BeginPlot("Error vs Time", "time", "error", ImVec2(-1, 200))) {
-      ImPlot::PlotLine("error", plot_var::t_plot, plot_var::altitude_error_plot,
-                       plot_var::euler_timesteps);
-      ImPlot::EndPlot();
-    }
+    // // Error plot
+    // ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max,
+    //                           -plot_var::y_max, plot_var::y_max);
+    // ImPlot::PushColormap(ImPlotColormap_Pastel);
+    // if (ImPlot::BeginPlot("Error vs Time", "time", "error", ImVec2(-1, 200)))
+    // {
+    //   ImPlot::PlotLine("error", plot_var::t_plot,
+    //   plot_var::altitude_error_plot,
+    //                    plot_var::euler_timesteps);
+    //   ImPlot::EndPlot();
+    // }
 
     ImGui::End();
   }
