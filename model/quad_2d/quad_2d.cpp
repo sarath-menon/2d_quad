@@ -6,10 +6,8 @@ void Quad2D::dynamics(float thrust_input, float torque_input) {
   // Neglect motor dynamics for now
   actual_thrust = thrust_input;
 
-  // x_dot = x_dot_mes();
   x_ddot = actual_thrust * sin(beta) - drag_coeff_ * x_dot;
 
-  // z_dot = z_dot_mes();
   if (z < 0) {
     // To prevent freefall into the ground
     z = 0;
@@ -17,6 +15,8 @@ void Quad2D::dynamics(float thrust_input, float torque_input) {
     z_ddot = 0;
   } else
     z_ddot = actual_thrust * cos(beta) - g - drag_coeff_ * fabs(z_dot);
+
+  beta_ddot = torque_input / inertia_2d_;
 }
 
 void Quad2D::euler_step(float dt) {

@@ -8,6 +8,7 @@ find_package(yaml-cpp CONFIG REQUIRED)
 
 
 include_directories(controller)
+include_directories(math_helper)
 
 add_subdirectory(model)
 add_subdirectory(project)

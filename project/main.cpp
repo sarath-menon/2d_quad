@@ -5,6 +5,7 @@
 #include "set_values.h"
 #include <iostream>
 #include <math.h>
+#include <math_helper.h>
 
 int main() {
   Quad2D quad;
@@ -16,7 +17,7 @@ int main() {
   quad.set_initial_conditions("project/parameters/initial_conditions.yaml");
 
   // Initial Conditions
-  float thrust_command = 0;
+  // float thrust_command = 0;
 
   for (int i = 0; i < euler_steps; i++) {
 
@@ -26,11 +27,11 @@ int main() {
     float altitude_error = altitude_target - quad.z_mes();
 
     // Compute control input
-    float pid_output = pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
-    // Motors have a maximum speed limit
-    thrust_command = std::fmin(ff_thrust + pid_output, quad.thrust_max());
-    // Motors cant be rotated in reverse during flight
-    thrust_command = std::fmax(thrust_command, quad.thrust_min());
+    float thrust_command = pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
+
+    // Motors have a maximum  and minimum speed limit
+    thrust_command =
+        limit(ff_thrust + thrust_command, quad.thrust_max(), quad.thrust_min());
 
     // Apply control input and compute the change
     quad.dynamics(thrust_command, 0);
