@@ -6,7 +6,6 @@ void Quad2D::motor_dynamics() {
 }
 
 void Quad2D::motor_speed_to_thrust_map() {
-  ;
   for (int i = 0; i < 3; i++) {
     motor_thrusts[i] = motor_speeds[i] * k_f * k_f;
   }

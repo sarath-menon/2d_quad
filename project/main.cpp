@@ -1,4 +1,5 @@
 // #include "pid.h"
+#include "allocation.h"
 #include "pid.h"
 #include "plot.h"
 #include "quad_2d.h"
