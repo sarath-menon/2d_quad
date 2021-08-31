@@ -17,7 +17,7 @@ drag_coeff: 1.2
 motor_thrust_max: 6.25
 
 # Maximum thrust can be produced by the motors
-motor_thrust_min: 0
+motor_thrust_min: 1.75
 
 # Maximum roll angle
 roll_max: 0.5

@@ -8,9 +8,11 @@
 // }
 
 void Quad2D::motor_speed_to_thrust_map(float motor_commands[4]) {
-  for (int i = 0; i < 3; i++) {
-    motor_thrusts[i] = motor_commands[i] * k_f_ * k_f_;
+  for (int i = 0; i < 4; i++) {
+    // std::cout << "Motor command " << i + 1 << ": " << motor_commands[i];
+    motor_thrusts[i] = motor_commands[i] * motor_commands[i] * k_f_;
   }
+  //   std::cout << std::endl;
 }
 
 /// Dynamics of the 2D quadcopter
@@ -36,6 +38,10 @@ void Quad2D::dynamics(float thrust_input, float torque_input) {
 void Quad2D::new_dynamics(float motor_commands[4]) {
 
   motor_speed_to_thrust_map(motor_commands);
+  std::cout << "Simulator f1:" << motor_thrusts[0]
+            << "\tf2:" << motor_thrusts[1] << "\tf3:" << motor_thrusts[2]
+            << "\tf4:" << motor_thrusts[3] << std::endl;
+
   // // To be added later
   // motor_dynamics();
 
@@ -43,6 +49,9 @@ void Quad2D::new_dynamics(float motor_commands[4]) {
       motor_thrusts[0] + motor_thrusts[1] + motor_thrusts[2] + motor_thrusts[3];
 
   float commanded_torque = (motor_thrusts[1] - motor_thrusts[3]) * arm_length_;
+
+  std::cout << "Net thrust and torque computer by simulator:"
+            << commanded_thrust << '\t' << commanded_torque << std::endl;
 
   // Motor dynamics not considered for thrust since position loop much slower
   actual_thrust = commanded_thrust;

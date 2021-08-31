@@ -78,7 +78,8 @@ private:
   float roll_max_ = yaml_file["roll_max"].as<float>();
 
   // Maximum thrust can be produced by the motors
-  const float torque_max_ = 2 * motor_thrust_max_ * arm_length_;
+  const float torque_max_ =
+      (motor_thrust_max_ - motor_thrust_min_) * arm_length_;
 
   // Variables for motor dynamics
 
@@ -90,7 +91,7 @@ private:
   const float motor_time_constant =
       yaml_file["motor_time_constant"].as<float>();
 
-  float motor_thrusts[4];
+  float motor_thrusts[4] = {0, 0, 0, 0};
 
   // Measured states ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   float x_mes_ = 0;
