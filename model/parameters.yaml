@@ -7,6 +7,9 @@ mass: 0.7 #[kg]
 arm_length: 0.171
 inertia_2d: 0.0034
 
+# Motor time constant
+motor_time_constant: 0.05
+
 # Air drag coefficient
 drag_coeff: 1.2
 
@@ -18,3 +21,5 @@ motor_thrust_min: 0
 
 # Maximum roll angle
 roll_max: 0.5
+# Relation btw square of motor speed and motor thrust
+# kf: 6.11e+06
