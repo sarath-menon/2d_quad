@@ -16,6 +16,7 @@ int main() {
 
   // Set quadcopter parameters
   quad.set_initial_conditions("project/parameters/initial_conditions.yaml");
+  float motor_commands[4] = {0, 0, 0, 0};
 
   // Outer Loop: Position Control
   for (int i = 0; i < euler_steps; i++) {
@@ -51,10 +52,16 @@ int main() {
     torque_command =
         limit(torque_command, quad.torque_max(), -quad.torque_max());
 
-    // Convert thrust, torque to motor speeds
+    // // Apply control input and compute the change
+    // quad.dynamics(thrust_command, torque_command);
 
-    // Apply control input and compute the change
-    quad.dynamics(thrust_command, torque_command);
+    // Convert thrust, torque to motor speeds
+    motor_mixing(motor_commands, thrust_command, torque_command, quad.k_f(),
+                 quad.arm_length());
+
+    // Dynamics function that accepts motor commands instead of thrusts
+    quad.new_dynamics(motor_commands);
+
     // quad.dynamics(ff_thrust, torque_command);
     quad.euler_step(dt);
 
@@ -65,6 +72,7 @@ int main() {
     // std::cout << "Angle error:" << angle_error << std::endl;
     // std::cout << "Torque Command:" << torque_command << std::endl;
     // std::cout << "Vertical error:" << vertical_error << std::endl;
+    // std::cout << "Motor commands:" << motor_commands[0] << std::endl;
 
     // Set variables for plotting
     plot_var::z_plot[i] = quad.z_mes();

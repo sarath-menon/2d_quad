@@ -49,8 +49,8 @@ private:
   float actual_torque = 0;
 
   // Controller commands
-  float commanded_thrust = 0;
-  float commanded_torque = 0;
+  // float commanded_thrust = 0;
+  // float commanded_torque = 0;
 
   // Variables for dynamics function ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Mass of the quadcopter
@@ -83,7 +83,7 @@ private:
   // Variables for motor dynamics
 
   // Relation btw square of motor speed and motor thrust
-  const float k_f = 6.11 * exp(-8);
+  const float k_f_ = 6.11 * exp(-8);
   // float k_f = yaml_file["k_f"].as<float>();
 
   // Time constant of motor (approximated as 1st order system)
@@ -109,7 +109,7 @@ public:
   /// Dynamics of the 2D quadcopter
   void dynamics(float thrust_input, float torque_input);
 
-  /// Dynamics of the 2D quadcopter
+  /// Dynamics function that accepts motor commands instead of thrusts
   void new_dynamics(float motor_speed[4]);
 
   // Numerical integration
@@ -119,11 +119,10 @@ public:
   void sensor_read();
 
 private:
-  void motor_speed_to_thrust_map();
+  void motor_speed_to_thrust_map(float motor_commands[4]);
 
-  void motor_dynamics();
-
-  void thrust_allocation();
+  // First order dynamics of BLDC motor
+  // void motor_dynamics();
 
 public:
   /// Getter function
@@ -148,6 +147,10 @@ public:
   float roll_max() const { return roll_max_; }
   /// Getter function
   float mass() const { return mass_; }
+  /// Getter function
+  float k_f() const { return k_f_; }
+  /// Getter function
+  float arm_length() const { return arm_length_; }
 
   /// Setter function
   void set_x_mes(float x_mes) { x_mes_ = x_mes; }

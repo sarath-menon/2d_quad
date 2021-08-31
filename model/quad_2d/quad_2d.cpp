@@ -1,21 +1,16 @@
 #include "quad_2d.h"
 #include <array>
+#include <valarray>
 
-void Quad2D::motor_dynamics() {
-  actual_thrust_dot = (actual_thrust - commanded_thrust) / motor_time_constant;
-}
+// void Quad2D::motor_dynamics() {
+//   actual_thrust_dot = (actual_thrust - commanded_thrust) /
+//   motor_time_constant;
+// }
 
-void Quad2D::motor_speed_to_thrust_map() {
+void Quad2D::motor_speed_to_thrust_map(float motor_commands[4]) {
   for (int i = 0; i < 3; i++) {
-    motor_thrusts[i] = motor_speeds[i] * k_f * k_f;
+    motor_thrusts[i] = motor_commands[i] * k_f_ * k_f_;
   }
-}
-
-void Quad2D::thrust_allocation() {
-  commanded_thrust =
-      motor_speeds[0] + motor_speeds[1] + motor_speeds[2] + motor_speeds[2];
-
-  commanded_torque = motor_speeds[1] - motor_speeds[3];
 }
 
 /// Dynamics of the 2D quadcopter
@@ -38,12 +33,16 @@ void Quad2D::dynamics(float thrust_input, float torque_input) {
   beta_ddot = actual_torque / inertia_2d_;
 }
 
-void Quad2D::new_dynamics(float motor_speed[4]) {
+void Quad2D::new_dynamics(float motor_commands[4]) {
 
-  motor_speed_to_thrust_map();
+  motor_speed_to_thrust_map(motor_commands);
   // // To be added later
   // motor_dynamics();
-  thrust_allocation();
+
+  float commanded_thrust =
+      motor_thrusts[0] + motor_thrusts[1] + motor_thrusts[2] + motor_thrusts[3];
+
+  float commanded_torque = (motor_thrusts[1] - motor_thrusts[3]) * arm_length_;
 
   // Motor dynamics not considered for thrust since position loop much slower
   actual_thrust = commanded_thrust;
