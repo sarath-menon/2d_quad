@@ -34,16 +34,15 @@ int main() {
     thrust_command =
         limit(ff_thrust + thrust_command, quad.thrust_max(), quad.thrust_min());
 
-    // Inner Loop: Angle Control
     float angle_command =
         vertical_pid(vertical_error, k_p__x, k_i__x, k_d__x, dt) / 9.81;
 
-    // Quadcopter Motors have a maximum and minimum speed limit
     angle_command = limit(angle_command, quad.roll_max(), -quad.roll_max());
 
-    // Just for debugging
+    // Ony for tuning inner angle loop
     // angle_command = 20;
 
+    // Inner Loop: Angle Control
     float angle_error = angle_command - quad.beta_mes();
 
     float torque_command = roll_pid(angle_error, k_p__b, k_i__b, k_d__b, dt);
@@ -59,10 +58,10 @@ int main() {
     // Diplay the control input and error
     // std::cout << "Thrust command:" << thrust_command << std::endl;
     // std::cout << "Altitude error:" << altitude_error << std::endl;
-    std::cout << "Angle Command:" << angle_command << std::endl;
-    std::cout << "Angle error:" << angle_error << std::endl;
-    std::cout << "Torque Command:" << torque_command << std::endl;
-    std::cout << "Vertical error:" << vertical_error << std::endl;
+    // std::cout << "Angle Command:" << angle_command << std::endl;
+    // std::cout << "Angle error:" << angle_error << std::endl;
+    // std::cout << "Torque Command:" << torque_command << std::endl;
+    // std::cout << "Vertical error:" << vertical_error << std::endl;
 
     // Set variables for plotting
     plot_var::z_plot[i] = quad.z_mes();

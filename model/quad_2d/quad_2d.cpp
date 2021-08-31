@@ -38,13 +38,18 @@ void Quad2D::euler_step(float dt) {
 
 void Quad2D::sensor_read() {
 
-  x_mes_ = x;
+  std::random_device rd{};
+  std::mt19937 gen{rd()};
+  std::normal_distribution<> d{0, 0.001};
+
+  x_mes_ = x + d(gen);
+
   x_dot_mes_ = x_dot;
 
   z_mes_ = z;
-  z_dot_mes_ = z_dot;
+  z_dot_mes_ = z_dot + d(gen);
 
-  beta_mes_ = beta;
+  beta_mes_ = beta + d(gen);
   beta_dot_mes_ = beta_dot;
 
   // std::cout << "z_mes_after_sensor_read: " << z << std::endl;
