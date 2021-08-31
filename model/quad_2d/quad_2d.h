@@ -56,16 +56,22 @@ private:
   float drag_coeff_ = yaml_file["drag_coeff"].as<float>();
 
   // Maximum thrust can be produced by the motors
-  float thrust_max_ = yaml_file["thrust_max"].as<float>();
+  float motor_thrust_max_ = yaml_file["motor_thrust_max"].as<float>();
 
   // Maximum thrust can be produced by the motors
-  float thrust_min_ = yaml_file["thrust_min"].as<float>();
+  float motor_thrust_min_ = yaml_file["motor_thrust_min"].as<float>();
+
+  // Maximum thrust can be produced by the motors
+  float thrust_max_ = motor_thrust_max_ * 4;
+
+  // Maximum thrust can be produced by the motors
+  float thrust_min_ = motor_thrust_min_ * 4;
 
   // Maximum thrust can be produced by the motors
   float roll_max_ = yaml_file["roll_max"].as<float>();
 
   // Maximum thrust can be produced by the motors
-  const float torque_max_ = 2 * thrust_max_ * arm_length_;
+  const float torque_max_ = 2 * motor_thrust_max_ * arm_length_;
 
   // Measured states ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   float x_mes_ = 0;

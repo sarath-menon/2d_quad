@@ -11,10 +11,10 @@ inertia_2d: 0.0034
 drag_coeff: 1.2
 
 # Maximum thrust can be produced by the motors
-thrust_max: 25
+motor_thrust_max: 6.25
 
 # Maximum thrust can be produced by the motors
-thrust_min: 0
+motor_thrust_min: 0
 
 # Maximum roll angle
 roll_max: 0.5
