@@ -1,5 +1,5 @@
 // #include "pid.h"
-#include "allocation.h"
+#include "motor_mixing.h"
 #include "pid.h"
 #include "plot.h"
 #include "quad_2d.h"
@@ -50,6 +50,8 @@ int main() {
 
     torque_command =
         limit(torque_command, quad.torque_max(), -quad.torque_max());
+
+    // Convert thrust, torque to motor speeds
 
     // Apply control input and compute the change
     quad.dynamics(thrust_command, torque_command);

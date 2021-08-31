@@ -23,6 +23,7 @@ void Quad2D::dynamics(float thrust_input, float torque_input) {
 
   // Neglect motor dynamics for now
   actual_thrust = thrust_input;
+  actual_torque = torque_input;
 
   x_ddot = actual_thrust * sin(beta) - drag_coeff_ * x_dot;
 
@@ -34,28 +35,32 @@ void Quad2D::dynamics(float thrust_input, float torque_input) {
   } else
     z_ddot = actual_thrust * cos(beta) - g - drag_coeff_ * fabs(z_dot);
 
-  beta_ddot = torque_input / inertia_2d_;
+  beta_ddot = actual_torque / inertia_2d_;
 }
 
 void Quad2D::new_dynamics(float motor_speed[4]) {
 
   motor_speed_to_thrust_map();
-  motor_dynamics();
+  // // To be added later
+  // motor_dynamics();
+  thrust_allocation();
 
-  // // Neglect motor dynamics for now
-  // actual_thrust = thrust_input;
+  // Motor dynamics not considered for thrust since position loop much slower
+  actual_thrust = commanded_thrust;
+  // Neglect motor dynamics for now
+  actual_torque = commanded_torque;
 
-  // x_ddot = actual_thrust * sin(beta) - drag_coeff_ * x_dot;
+  x_ddot = actual_thrust * sin(beta) - drag_coeff_ * x_dot;
 
-  // if (z < 0) {
-  //   // To prevent freefall into the ground
-  //   z = 0;
-  //   z_dot = 0;
-  //   z_ddot = 0;
-  // } else
-  //   z_ddot = actual_thrust * cos(beta) - g - drag_coeff_ * fabs(z_dot);
+  if (z < 0) {
+    // To prevent freefall into the ground
+    z = 0;
+    z_dot = 0;
+    z_ddot = 0;
+  } else
+    z_ddot = actual_thrust * cos(beta) - g - drag_coeff_ * fabs(z_dot);
 
-  // beta_ddot = torque_input / inertia_2d_;
+  beta_ddot = actual_torque / inertia_2d_;
 }
 
 void Quad2D::euler_step(float dt) {
