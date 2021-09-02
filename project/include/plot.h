@@ -1,3 +1,6 @@
+#pragma once
+
+#include "set_values.h"
 #include <Mahi/Gui.hpp>
 #include <Mahi/Util.hpp>
 
@@ -37,66 +40,60 @@ public:
     ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, plot_var::y_min,
                               plot_var::y_max);
     // Altitude plot
-    if (ImPlot::BeginPlot("Altitude vs Time", "time", "altitude",
-                          ImVec2(-1, 200))) {
-      ImPlot::PlotLine("altitude", plot_var::t_plot, plot_var::z_plot,
-                       plot_var::euler_timesteps);
-      ImPlot::EndPlot();
+    if (altitude_plot_flag) {
+      if (ImPlot::BeginPlot("Altitude vs Time", "time", "altitude [m]",
+                            ImVec2(-1, 200))) {
+        ImPlot::PlotLine("altitude", plot_var::t_plot, plot_var::z_plot,
+                         plot_var::euler_timesteps);
+        ImPlot::EndPlot();
+      }
     }
 
-    ImGui::DragFloat("Alpha", &alpha, 0.01f, 0, 1);
-    ImPlot::PushColormap(ImPlotColormap_Pastel);
-    ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, plot_var::y_min,
-                              plot_var::y_max);
-    // Translation plot
-    if (ImPlot::BeginPlot("Vertical vs Time", "time", "x distance",
-                          ImVec2(-1, 200))) {
-      ImPlot::PlotLine("vertical distance", plot_var::t_plot, plot_var::x_plot,
-                       plot_var::euler_timesteps);
-      ImPlot::EndPlot();
+    if (translation_plot_flag) {
+      // Translation plot
+      if (ImPlot::BeginPlot("Vertical vs Time", "time", "x distance [m]",
+                            ImVec2(-1, 200))) {
+        ImPlot::PlotLine("vertical distance", plot_var::t_plot,
+                         plot_var::x_plot, plot_var::euler_timesteps);
+        ImPlot::EndPlot();
+      }
     }
 
     // Thrust input plot
-    ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, 0, 25);
-    ImPlot::PushColormap(ImPlotColormap_Pastel);
-    if (ImPlot::BeginPlot("Thrust input vs Time", "time", "thrust Input",
-                          ImVec2(-1, 200))) {
-      ImPlot::PlotLine("thrust input", plot_var::t_plot, plot_var::thrust_plot,
-                       plot_var::euler_timesteps);
-      ImPlot::EndPlot();
+    if (thrust_plot_flag) {
+      ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, 0, 25);
+      ImPlot::PushColormap(ImPlotColormap_Pastel);
+      if (ImPlot::BeginPlot("Thrust input vs Time", "time",
+                            "thrust input [N/kg]", ImVec2(-1, 200))) {
+        ImPlot::PlotLine("thrust input", plot_var::t_plot,
+                         plot_var::thrust_plot, plot_var::euler_timesteps);
+        ImPlot::EndPlot();
+      }
     }
 
     // Torque input plot
-    ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, -40, 40);
-    ImPlot::PushColormap(ImPlotColormap_Pastel);
-    if (ImPlot::BeginPlot("Torque input vs Time", "time", "Torque Input",
-                          ImVec2(-1, 200))) {
-      ImPlot::PlotLine("torque input", plot_var::t_plot, plot_var::torque_plot,
-                       plot_var::euler_timesteps);
-      ImPlot::EndPlot();
+    if (torque_plot_flag) {
+      ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, -5, 5);
+      ImPlot::PushColormap(ImPlotColormap_Pastel);
+      if (ImPlot::BeginPlot("Torque input vs Time", "time",
+                            "Torque Input [Nm/kg]", ImVec2(-1, 200))) {
+        ImPlot::PlotLine("torque input", plot_var::t_plot,
+                         plot_var::torque_plot, plot_var::euler_timesteps);
+        ImPlot::EndPlot();
+      }
     }
 
-    // Beta plot
-    ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, -30, 30);
-    ImPlot::PushColormap(ImPlotColormap_Pastel);
-    if (ImPlot::BeginPlot("Roll angle vs Time", "time", "roll angle",
-                          ImVec2(-1, 200))) {
-      ImPlot::PlotLine("torque input", plot_var::t_plot, plot_var::beta_plot,
-                       plot_var::euler_timesteps);
-      ImPlot::EndPlot();
+    // Roll angle plot
+    if (roll_angle_flag) {
+      ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, -30, 30);
+      ImPlot::PushColormap(ImPlotColormap_Pastel);
+      if (ImPlot::BeginPlot("Roll angle vs Time", "time", "roll angle [deg]",
+                            ImVec2(-1, 200))) {
+        ImPlot::PlotLine("torque input", plot_var::t_plot, plot_var::beta_plot,
+                         plot_var::euler_timesteps);
+        ImPlot::EndPlot();
+      }
     }
-
-    // // Error plot
-    // ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max,
-    //                           -plot_var::y_max, plot_var::y_max);
-    // ImPlot::PushColormap(ImPlotColormap_Pastel);
-    // if (ImPlot::BeginPlot("Error vs Time", "time", "error", ImVec2(-1, 200)))
-    // {
-    //   ImPlot::PlotLine("error", plot_var::t_plot,
-    //   plot_var::altitude_error_plot,
-    //                    plot_var::euler_timesteps);
-    //   ImPlot::EndPlot();
-    // }
 
     ImGui::End();
   }
