@@ -95,7 +95,7 @@ void Quad2D::sensor_read() {
 
   std::random_device rd{};
   std::mt19937 gen{rd()};
-  std::normal_distribution<> d{0, 0.001};
+  std::normal_distribution<> d{0, 0.000};
 
   x_mes_ = x + d(gen);
 

@@ -49,6 +49,8 @@ const bool pose_pub_flag = sim_yaml_file["pose_pub"].as<bool>();
 YAML::Node plot_yaml_file =
     YAML::LoadFile("project/parameters/plot_parameters.yaml");
 
+const bool plot_flag = plot_yaml_file["plot_flag"].as<bool>();
+
 const bool altitude_plot_flag = plot_yaml_file["altitude_plot"].as<bool>();
 const bool translation_plot_flag =
     plot_yaml_file["translation_plot"].as<bool>();

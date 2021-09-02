@@ -17,9 +17,6 @@
 int main() {
   Quad2D quad;
 
-  // Initialize visualizer
-  MyApp app;
-
   // Set quadcopter parameters
   quad.set_initial_conditions("project/parameters/initial_conditions.yaml");
   float motor_commands[4] = {0, 0, 0, 0};
@@ -30,6 +27,7 @@ int main() {
 
   if (pose_pub_flag) {
     fastdds_flag = pose_pub.init();
+    std::cout << "count check";
   }
 
   // Outer Loop: Position Control
@@ -55,8 +53,8 @@ int main() {
 
     angle_command = limit(angle_command, quad.roll_max(), -quad.roll_max());
 
-    // Ony for tuning inner angle loop
-    angle_command = 20;
+    // // Only for tuning inner angle loop
+    // angle_command = 30 * (M_PI / 180);
 
     // Inner Loop: Angle Control
     float angle_error = angle_command - quad.beta_mes();
@@ -66,7 +64,7 @@ int main() {
     torque_command =
         limit(torque_command, quad.torque_max(), -quad.torque_max());
 
-    // // Apply control input and compute the change
+    // // Old dynmaics function
     // quad.dynamics(thrust_command, torque_command);
 
     // // Convert thrust, torque to motor speeds
@@ -76,11 +74,11 @@ int main() {
     // Dynamics function that accepts motor commands instead of thrusts
     quad.new_dynamics(motor_commands);
 
-    // // quad.dynamics(ff_thrust, torque_command);
-    // quad.euler_step(dt);
+    // quad.dynamics(ff_thrust, torque_command);
+    quad.euler_step(dt);
 
-    // Ony for tuning inner angle loop
-    quad.inner_loop_tuning_euler_step(dt);
+    // // Ony for tuning inner angle loop
+    // quad.inner_loop_tuning_euler_step(dt);
 
     // Diplay the control input and error
     // std::cout << "Thrust command:" << thrust_command << std::endl;
@@ -91,13 +89,15 @@ int main() {
     // std::cout << "Vertical error:" << vertical_error << std::endl;
     // std::cout << "Motor commands:" << motor_commands[0] << std::endl;
 
-    // Set variables for plotting
-    plot_var::z_plot[i] = quad.true_z();
-    plot_var::x_plot[i] = quad.true_x();
-    plot_var::thrust_plot[i] = thrust_command;
-    plot_var::torque_plot[i] = torque_command;
-    plot_var::beta_plot[i] = quad.true_beta() * (180 / M_PI);
-    plot_var::t_plot[i] = i * dt;
+    if (plot_flag) {
+      // Set variables for plotting
+      plot_var::z_plot[i] = quad.true_z();
+      plot_var::x_plot[i] = quad.true_x();
+      plot_var::thrust_plot[i] = thrust_command;
+      plot_var::torque_plot[i] = torque_command;
+      plot_var::beta_plot[i] = quad.true_beta() * (180 / M_PI);
+      plot_var::t_plot[i] = i * dt;
+    }
 
     if (pose_pub_flag && fastdds_flag) {
       // Publish mocap msg
@@ -108,7 +108,7 @@ int main() {
       // std::cout << "q_w" << q_nb(0);
 
       msg.index({(uint32_t)i + 1});
-      msg.position({quad.true_x() * 100, 0, quad.true_z() * 100});
+      msg.position({quad.true_x() * 400, 0, quad.true_z() * 100});
       // msg.orientation_quaternion({0, 0, 0, 1});
       msg.orientation_quaternion({q_nb(1), q_nb(2), q_nb(3), q_nb(0)});
       pose_pub.run(msg);
@@ -118,5 +118,10 @@ int main() {
 
   std::cout << std::endl;
   // Plot the results
-  app.run();
+
+  if (plot_flag) {
+    // Initialize visualizer
+    MyApp app;
+    app.run();
+  }
 }

@@ -1,7 +1,10 @@
 # Plot Parameters:
 
-# To show the plot
+# To enable plotting
 
+plot_flag: false
+
+# To show the plot
 altitude_plot: true
 
 translation_plot: true
