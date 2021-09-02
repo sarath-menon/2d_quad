@@ -85,7 +85,7 @@ public:
 
     // Roll angle plot
     if (roll_angle_flag) {
-      ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, -30, 30);
+      ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, -50, 50);
       ImPlot::PushColormap(ImPlotColormap_Pastel);
       if (ImPlot::BeginPlot("Roll angle vs Time", "time", "roll angle [deg]",
                             ImVec2(-1, 200))) {
