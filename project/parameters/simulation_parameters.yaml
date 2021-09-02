@@ -2,10 +2,13 @@
 
 # Altitude Target
 altitude_target: 10
-vertical_target: 4
+vertical_target: 10
 
 # Euler Integration Timestep
 dt: 0.01
 
 # Number of timesteps to be simulated
 euler_steps: 500
+
+# Fastdds publishers activate
+pose_pub: false

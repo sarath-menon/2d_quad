@@ -4,6 +4,7 @@
 #include "plot.h"
 #include "quad_2d.h"
 #include "set_values.h"
+#include <chrono>
 #include <iostream>
 #include <math.h>
 #include <math_helper.h>
@@ -23,9 +24,13 @@ int main() {
   quad.set_initial_conditions("project/parameters/initial_conditions.yaml");
   float motor_commands[4] = {0, 0, 0, 0};
 
-  // Fastdds publisher and message initialization
+  // // Fastdds publisher and message initialization
+  bool fastdds_flag = false;
   mocap_quadcopterPublisher pose_pub;
-  mocap_quadcopter msg;
+
+  if (pose_pub_flag) {
+    fastdds_flag = pose_pub.init();
+  }
 
   // Outer Loop: Position Control
   for (int i = 0; i < euler_steps; i++) {
@@ -84,23 +89,27 @@ int main() {
     // std::cout << "Motor commands:" << motor_commands[0] << std::endl;
 
     // Set variables for plotting
-    plot_var::z_plot[i] = quad.z_mes();
-    plot_var::x_plot[i] = quad.x_mes();
+    plot_var::z_plot[i] = quad.true_z();
+    plot_var::x_plot[i] = quad.true_x();
     plot_var::thrust_plot[i] = thrust_command;
     plot_var::torque_plot[i] = torque_command;
-    plot_var::beta_plot[i] = quad.beta_mes();
+    plot_var::beta_plot[i] = quad.true_beta();
     plot_var::t_plot[i] = i * dt;
 
-    // Publish mocap msg
-    matrix::Eulerf euler(quad.true_beta(), 0, 0);
-    matrix::Quatf q_nb(euler);
-    // std::cout << "q_w" << q_nb(0);
+    if (pose_pub_flag && fastdds_flag) {
+      // Publish mocap msg
+      mocap_quadcopter msg;
 
-    if (pose_pub.init()) {
+      matrix::Eulerf euler(0, quad.true_beta(), 0);
+      matrix::Quatf q_nb(euler);
+      // std::cout << "q_w" << q_nb(0);
+
       msg.index({(uint32_t)i + 1});
-      msg.position({quad.true_x(), 0, quad.true_z()});
-      msg.orientation_quaternion({q_nb(0), q_nb(1), q_nb(2), q_nb(3)});
+      msg.position({quad.true_x() * 100, 0, quad.true_z() * 100});
+      // msg.orientation_quaternion({0, 0, 0, 1});
+      msg.orientation_quaternion({q_nb(1), q_nb(2), q_nb(3), q_nb(0)});
       pose_pub.run(msg);
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
   }
 

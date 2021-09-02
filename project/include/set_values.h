@@ -35,3 +35,6 @@ const float vertical_target = sim_yaml_file["vertical_target"].as<float>();
 // Euler integration timestep
 const float dt = sim_yaml_file["dt"].as<float>();
 const float euler_steps = sim_yaml_file["euler_steps"].as<float>();
+
+// Fastdds publisher activate or not
+const bool pose_pub_flag = sim_yaml_file["pose_pub"].as<bool>();
