@@ -93,7 +93,7 @@ int main() {
     plot_var::x_plot[i] = quad.true_x();
     plot_var::thrust_plot[i] = thrust_command;
     plot_var::torque_plot[i] = torque_command;
-    plot_var::beta_plot[i] = quad.true_beta();
+    plot_var::beta_plot[i] = quad.true_beta() * (180 / M_PI);
     plot_var::t_plot[i] = i * dt;
 
     if (pose_pub_flag && fastdds_flag) {
