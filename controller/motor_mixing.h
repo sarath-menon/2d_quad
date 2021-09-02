@@ -32,10 +32,12 @@ void motor_mixing(float motor_commands[4], const float thrust_command,
 
   // std::cout << "Actual Motor 1 command " << motor_commands[0] << std::endl;
 
-  std::cout << "Controller: f1:" << f1 << "\tf2:" << f2 << "\tf3:" << f3
-            << "\tf4:" << f4 << std::endl;
-  std::cout << "Net thrust and torque before  motor mixing:" << thrust_command
-            << '\t' << torque_command << std::endl;
-  std::cout << "Net thrust and torque after motor mixing:" << f1 + f2 + f3 + f4
-            << '\t' << (f2 - f4) * arm_length << std::endl;
+  //   std::cout << "Controller: f1:" << f1 << "\tf2:" << f2 << "\tf3:" << f3
+  //             << "\tf4:" << f4 << std::endl;
+  //   std::cout << "Net thrust and torque before  motor mixing:" <<
+  //   thrust_command
+  //             << '\t' << torque_command << std::endl;
+  //   std::cout << "Net thrust and torque after motor mixing:" << f1 + f2 + f3
+  //   + f4
+  //             << '\t' << (f2 - f4) * arm_length << std::endl;
 }

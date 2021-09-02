@@ -152,6 +152,12 @@ public:
   float k_f() const { return k_f_; }
   /// Getter function
   float arm_length() const { return arm_length_; }
+  /// Getter function
+  float true_x() const { return x; }
+  /// Getter function
+  float true_z() const { return z; }
+  /// Getter function
+  float true_beta() const { return beta; }
 
   /// Setter function
   void set_x_mes(float x_mes) { x_mes_ = x_mes; }

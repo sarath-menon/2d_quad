@@ -7,6 +7,11 @@
 #include <iostream>
 #include <math.h>
 #include <math_helper.h>
+// Fastdds Headers
+#include "mocap_quadcopterPubSubTypes.h"
+#include "mocap_quadcopterPublisher.h"
+// Px4 math header
+#include "matrix/math.hpp"
 
 int main() {
   Quad2D quad;
@@ -17,6 +22,10 @@ int main() {
   // Set quadcopter parameters
   quad.set_initial_conditions("project/parameters/initial_conditions.yaml");
   float motor_commands[4] = {0, 0, 0, 0};
+
+  // Fastdds publisher and message initialization
+  mocap_quadcopterPublisher pose_pub;
+  mocap_quadcopter msg;
 
   // Outer Loop: Position Control
   for (int i = 0; i < euler_steps; i++) {
@@ -82,9 +91,20 @@ int main() {
     plot_var::beta_plot[i] = quad.beta_mes();
     plot_var::t_plot[i] = i * dt;
 
-    std::cout << std::endl;
+    // Publish mocap msg
+    matrix::Eulerf euler(quad.true_beta(), 0, 0);
+    matrix::Quatf q_nb(euler);
+    // std::cout << "q_w" << q_nb(0);
+
+    if (pose_pub.init()) {
+      msg.index({(uint32_t)i + 1});
+      msg.position({quad.true_x(), 0, quad.true_z()});
+      msg.orientation_quaternion({q_nb(0), q_nb(1), q_nb(2), q_nb(3)});
+      pose_pub.run(msg);
+    }
   }
 
+  std::cout << std::endl;
   // Plot the results
   app.run();
 }

@@ -1,7 +1,7 @@
 # Controller Parameters:
 
 # Altitude PID Gains
-k_p__z: 6.8
+k_p__z: 7
 k_i__z: 0
 k_d__z: 4.8
 
