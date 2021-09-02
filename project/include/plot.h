@@ -32,15 +32,14 @@ public:
 
   void update() override {
     // App logic and/or ImGui code goes here
-    ImGui::Begin("Example");
+    ImGui::Begin("Quadcopter plots");
 
     static float alpha = 0.25f;
-    ImGui::DragFloat("Alpha", &alpha, 0.01f, 0, 1);
     ImPlot::PushColormap(ImPlotColormap_Pastel);
-    ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, plot_var::y_min,
-                              plot_var::y_max);
+
     // Altitude plot
     if (altitude_plot_flag) {
+      ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, 0, 8);
       if (ImPlot::BeginPlot("Altitude vs Time", "time", "altitude [m]",
                             ImVec2(-1, 200))) {
         ImPlot::PlotLine("altitude", plot_var::t_plot, plot_var::z_plot,
@@ -51,6 +50,7 @@ public:
 
     if (translation_plot_flag) {
       // Translation plot
+      ImPlot::SetNextPlotLimits(plot_var::x_min, plot_var::x_max, 0, 5);
       if (ImPlot::BeginPlot("Vertical vs Time", "time", "x distance [m]",
                             ImVec2(-1, 200))) {
         ImPlot::PlotLine("vertical distance", plot_var::t_plot,

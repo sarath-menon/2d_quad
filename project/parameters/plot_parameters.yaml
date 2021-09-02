@@ -2,12 +2,12 @@
 
 # To show the plot
 
-altitude_plot: false
+altitude_plot: true
 
-translation_plot: false
+translation_plot: true
 
 thrust_plot: false
 
-torque_plot: true
+torque_plot: false
 
 roll_angle_plot: true
