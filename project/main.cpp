@@ -56,7 +56,7 @@ int main() {
     angle_command = limit(angle_command, quad.roll_max(), -quad.roll_max());
 
     // Ony for tuning inner angle loop
-    // angle_command = 20;
+    angle_command = 20;
 
     // Inner Loop: Angle Control
     float angle_error = angle_command - quad.beta_mes();
@@ -69,15 +69,18 @@ int main() {
     // // Apply control input and compute the change
     // quad.dynamics(thrust_command, torque_command);
 
-    // Convert thrust, torque to motor speeds
+    // // Convert thrust, torque to motor speeds
     motor_mixing(motor_commands, thrust_command, torque_command, quad.k_f(),
                  quad.arm_length());
 
     // Dynamics function that accepts motor commands instead of thrusts
     quad.new_dynamics(motor_commands);
 
-    // quad.dynamics(ff_thrust, torque_command);
-    quad.euler_step(dt);
+    // // quad.dynamics(ff_thrust, torque_command);
+    // quad.euler_step(dt);
+
+    // Ony for tuning inner angle loop
+    quad.inner_loop_tuning_euler_step(dt);
 
     // Diplay the control input and error
     // std::cout << "Thrust command:" << thrust_command << std::endl;

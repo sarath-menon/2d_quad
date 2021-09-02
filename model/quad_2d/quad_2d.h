@@ -119,6 +119,9 @@ public:
   // Get sensor measurements by adding artifical noise to the sensors
   void sensor_read();
 
+  // Deactivate position dynamics to tune inner angle loop
+  void inner_loop_tuning_euler_step(float dt);
+
 private:
   void motor_speed_to_thrust_map(float motor_commands[4]);
 

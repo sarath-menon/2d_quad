@@ -120,3 +120,13 @@ void Quad2D::set_initial_conditions(std::string path) {
   x_dot = yaml_file["x_dot"].as<float>(); // [m/s]
   z_dot = yaml_file["z_dot"].as<float>(); // [m/s]
 }
+
+void Quad2D::inner_loop_tuning_euler_step(float dt) {
+
+  // Rotation
+  beta = beta + beta_dot * dt;
+  beta_dot = beta_dot + beta_ddot * dt;
+
+  // Motor
+  actual_thrust = actual_thrust_dot * dt + actual_thrust;
+}
