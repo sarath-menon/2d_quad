@@ -16,4 +16,5 @@ include_directories(external/PX4-Matrix)
 
 add_subdirectory(model)
 add_subdirectory(project)
+add_subdirectory(controller_new)
 add_subdirectory(external)

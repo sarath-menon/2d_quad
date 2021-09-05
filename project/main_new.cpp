@@ -1,6 +1,7 @@
 // #include "pid.h"
 #include "motor_mixing.h"
 #include "pid.h"
+#include "pid_cascaded.h"
 #include "plot.h"
 #include "quad_2d.h"
 #include "set_values.h"
@@ -16,6 +17,7 @@
 
 int main() {
   Quad2D quad;
+  PidCascadedController controller;
 
   // Set quadcopter parameters
   quad.set_initial_conditions("project/parameters/initial_conditions.yaml");
@@ -36,38 +38,26 @@ int main() {
     // Get system state
     quad.sensor_read();
 
-    // Altitude Controller
-    float altitude_error = altitude_target - quad.z_mes();
+    // Outer loop
+    const float thrust_command =
+        controller.altitude_controller(quad, altitude_target, dt);
 
-    float thrust_command =
-        altitude_pid(altitude_error, k_p__z, k_i__z, k_d__z, dt);
-
-    // Quadcopter Motors have a maximum and minimum speed limit
-    thrust_command =
-        limit(ff_thrust + thrust_command, quad.thrust_max(), quad.thrust_min());
+    // const float attitude_command =
+    //     controller.horizontal_controller(quad, horizontal_target, dt);
 
     // Horizontal Controller
     float horizontal_error = horizontal_target - quad.x_mes();
-    float angle_command =
+    float attitude_command =
         horizontal_pid(horizontal_error, k_p__x, k_i__x, k_d__x, dt) / 9.81;
 
-    angle_command = limit(angle_command, quad.roll_max(), -quad.roll_max());
+    attitude_command =
+        limit(attitude_command, quad.roll_max(), -quad.roll_max());
 
-    // // Only for tuning inner angle loop
-    // angle_command = 30 * (M_PI / 180);
+    // Inner loop
+    const float torque_command =
+        controller.attitude_controller(quad, attitude_command, dt);
 
-    // Inner Loop: Angle Control
-    float angle_error = angle_command - quad.beta_mes();
-
-    float torque_command = roll_pid(angle_error, k_p__b, k_i__b, k_d__b, dt);
-
-    torque_command =
-        limit(torque_command, quad.torque_max(), -quad.torque_max());
-
-    // // Old dynmaics function
-    // quad.dynamics(thrust_command, torque_command);
-
-    // // Convert thrust, torque to motor speeds
+    // Convert thrust, torque to motor speeds
     motor_mixing(motor_commands, thrust_command, torque_command, quad.k_f(),
                  quad.arm_length());
 
@@ -86,7 +76,7 @@ int main() {
     // std::cout << "Angle Command:" << angle_command << std::endl;
     // std::cout << "Angle error:" << angle_error << std::endl;
     // std::cout << "Torque Command:" << torque_command << std::endl;
-    // std::cout << "horizontal error:" << horizontal_error << std::endl;
+    // std::cout << "Vertical error:" << vertical_error << std::endl;
     // std::cout << "Motor commands:" << motor_commands[0] << std::endl;
 
     if (plot_flag) {

@@ -1,9 +1,9 @@
-#pragma once
-#include <iostream>
+#include "pid_cascaded.h"
 #include <math.h>
 
-float altitude_pid(const float e, const float k_p, const float k_i,
-                   const float k_d, const float dt) {
+float PidCascadedController::altitude_pid(const float e, const float k_p,
+                                          const float k_i, const float k_d,
+                                          const float dt) {
 
   // Integral error
   static float e_i = 0;
@@ -24,8 +24,9 @@ float altitude_pid(const float e, const float k_p, const float k_i,
   return control_output;
 }
 
-float horizontal_pid(const float e, const float k_p, const float k_i,
-                     const float k_d, const float dt) {
+float PidCascadedController::horizontal_pid(const float e, const float k_p,
+                                            const float k_i, const float k_d,
+                                            const float dt) {
 
   // Integral error
   static float e_i = 0;
@@ -46,8 +47,9 @@ float horizontal_pid(const float e, const float k_p, const float k_i,
   return control_output;
 }
 
-float roll_pid(const float e, const float k_p, const float k_i, const float k_d,
-               const float dt) {
+float PidCascadedController::attitude_pid(const float e, const float k_p,
+                                          const float k_i, const float k_d,
+                                          const float dt) {
 
   // Integral error
   static float e_i = 0;

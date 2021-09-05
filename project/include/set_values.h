@@ -13,9 +13,9 @@ const float k_i__z = controller_yaml_file["k_i__z"].as<float>();
 const float k_d__z = controller_yaml_file["k_d__z"].as<float>();
 
 // Translation PID Gains
-const float k_p__x = controller_yaml_file["k_p__z"].as<float>();
-const float k_i__x = controller_yaml_file["k_i__z"].as<float>();
-const float k_d__x = controller_yaml_file["k_d__z"].as<float>();
+const float k_p__x = controller_yaml_file["k_p__x"].as<float>();
+const float k_i__x = controller_yaml_file["k_i__x"].as<float>();
+const float k_d__x = controller_yaml_file["k_d__x"].as<float>();
 
 // Angle PID Gains
 const float k_p__b = controller_yaml_file["k_p__b"].as<float>();
@@ -33,7 +33,7 @@ YAML::Node sim_yaml_file =
     YAML::LoadFile("project/parameters/simulation_parameters.yaml");
 
 const float altitude_target = sim_yaml_file["altitude_target"].as<float>();
-const float vertical_target = sim_yaml_file["vertical_target"].as<float>();
+const float horizontal_target = sim_yaml_file["horizontal_target"].as<float>();
 
 // Euler integration timestep
 const float dt = sim_yaml_file["dt"].as<float>();
