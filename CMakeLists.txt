@@ -10,11 +10,10 @@ find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 find_package(yaml-cpp CONFIG REQUIRED)
 
-include_directories(controller)
 include_directories(math_helper)
 include_directories(external/PX4-Matrix)
 
 add_subdirectory(model)
 add_subdirectory(project)
-add_subdirectory(controller_new)
+add_subdirectory(controller)
 add_subdirectory(external)
