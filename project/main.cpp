@@ -23,8 +23,8 @@ int main() {
   float motor_commands[4] = {0, 0, 0, 0};
 
   // // Fastdds publisher and message initialization
-  bool fastdds_flag = false;
   mocap_quadcopterPublisher pose_pub;
+  bool fastdds_flag = false;
 
   if (pose_pub_flag) {
     fastdds_flag = pose_pub.init();
@@ -43,14 +43,6 @@ int main() {
 
     const float attitude_command =
         controller.horizontal_controller(quad, horizontal_target, dt);
-
-    // // Horizontal Controller
-    // float horizontal_error = horizontal_target - quad.x_mes();
-    // float attitude_command =
-    //     horizontal_pid(horizontal_error, k_p__x, k_i__x, k_d__x, dt) / 9.81;
-
-    // attitude_command =
-    //     limit(attitude_command, quad.roll_max(), -quad.roll_max());
 
     // Inner loop
     const float torque_command =

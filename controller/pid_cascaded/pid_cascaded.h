@@ -34,10 +34,10 @@ private:
                      const float k_d, const float dt);
 
 public:
-  float altitude_controller(Quad2D &quad, const float altitude_target,
+  float altitude_controller(const Quad2D &quad, const float altitude_target,
                             const float dt);
-  float horizontal_controller(Quad2D &quad, const float horizontal_target,
+  float horizontal_controller(const Quad2D &quad, const float horizontal_target,
                               const float dt);
-  float attitude_controller(Quad2D &quad, const float attitude_target,
+  float attitude_controller(const Quad2D &quad, const float attitude_target,
                             const float dt);
 };

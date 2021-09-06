@@ -1,6 +1,6 @@
 #include "pid_cascaded.h"
 
-float PidCascadedController::altitude_controller(Quad2D &quad,
+float PidCascadedController::altitude_controller(const Quad2D &quad,
                                                  const float altitude_target,
                                                  const float dt) {
   // Compute error
@@ -18,7 +18,7 @@ float PidCascadedController::altitude_controller(Quad2D &quad,
 };
 
 float PidCascadedController::horizontal_controller(
-    Quad2D &quad, const float horizontal_target, const float dt) {
+    const Quad2D &quad, const float horizontal_target, const float dt) {
 
   // Compute error
   const float horizontal_error = horizontal_target - quad.x_mes();
@@ -32,7 +32,7 @@ float PidCascadedController::horizontal_controller(
   return attitude_command;
 };
 
-float PidCascadedController::attitude_controller(Quad2D &quad,
+float PidCascadedController::attitude_controller(const Quad2D &quad,
                                                  const float attitude_target,
                                                  const float dt) {
   const float angle_error = attitude_target - quad.beta_mes();
