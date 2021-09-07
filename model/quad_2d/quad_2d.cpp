@@ -16,24 +16,24 @@ void Quad2D::motor_speed_to_thrust_map(float motor_commands[4]) {
 }
 
 /// Dynamics of the 2D quadcopter
-void Quad2D::dynamics(float thrust_input, float torque_input) {
+// void Quad2D::dynamics(float thrust_input, float torque_input) {
 
-  // Neglect motor dynamics for now
-  actual_thrust = thrust_input;
-  actual_torque = torque_input;
+//   // Neglect motor dynamics for now
+//   actual_thrust = thrust_input;
+//   actual_torque = torque_input;
 
-  x_ddot = actual_thrust * sin(beta) - drag_coeff_ * x_dot;
+//   x_ddot = actual_thrust * sin(beta) - drag_coeff_ * x_dot;
 
-  if (z < 0) {
-    // To prevent freefall into the ground
-    z = 0;
-    z_dot = 0;
-    z_ddot = 0;
-  } else
-    z_ddot = actual_thrust * cos(beta) - g - drag_coeff_ * fabs(z_dot);
+//   if (z < 0) {
+//     // To prevent freefall into the ground
+//     z = 0;
+//     z_dot = 0;
+//     z_ddot = 0;
+//   } else
+//     z_ddot = actual_thrust * cos(beta) - g - drag_coeff_ * fabs(z_dot);
 
-  beta_ddot = actual_torque / inertia_2d_;
-}
+//   beta_ddot = actual_torque / inertia_2d_;
+// }
 
 void Quad2D::new_dynamics(float motor_commands[4]) {
 
@@ -93,6 +93,7 @@ void Quad2D::euler_step(float dt) {
 
 void Quad2D::sensor_read() {
 
+  // Initialize random number generator
   std::random_device rd{};
   std::mt19937 gen{rd()};
   std::normal_distribution<> d{0, 0.000};

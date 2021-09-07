@@ -28,7 +28,6 @@ int main() {
 
   if (pose_pub_flag) {
     fastdds_flag = pose_pub.init();
-    std::cout << "count check";
   }
 
   // Outer Loop: Position Control
@@ -60,6 +59,10 @@ int main() {
 
     // // Ony for tuning inner angle loop
     // quad.inner_loop_tuning_euler_step(dt);
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // For plotting and logging
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
     // Diplay the control input and error
     // std::cout << "Thrust command:" << thrust_command << std::endl;

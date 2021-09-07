@@ -3,7 +3,7 @@ project(2d_quad VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 
 ###############################################################################
-# Load installed packages
+# Find installed packages
 ###############################################################################
 
 find_package(fastcdr REQUIRED)
