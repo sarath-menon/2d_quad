@@ -2,17 +2,15 @@
 #include <array>
 #include <valarray>
 
-// void Quad2D::motor_dynamics() {
-//   actual_thrust_dot = (actual_thrust - commanded_thrust) /
-//   motor_time_constant;
-// }
-
 void Quad2D::motor_speed_to_thrust_map(float motor_commands[4]) {
   for (int i = 0; i < 4; i++) {
     // std::cout << "Motor command " << i + 1 << ": " << motor_commands[i];
-    motor_thrusts[i] = motor_commands[i] * motor_commands[i] * k_f_;
+    commanded_motor_thrusts[i] = motor_commands[i] * motor_commands[i] * k_f_;
+    // Motor Dynamics
+    actual_motor_thrusts_dot[i] =
+        (commanded_motor_thrusts[i] - actual_motor_thrusts[i]) /
+        motor_time_constant_inverse;
   }
-  //   std::cout << std::endl;
 }
 
 /// Dynamics of the 2D quadcopter
@@ -42,21 +40,30 @@ void Quad2D::new_dynamics(float motor_commands[4]) {
   //           << "\tf2:" << motor_thrusts[1] << "\tf3:" << motor_thrusts[2]
   //           << "\tf4:" << motor_thrusts[3] << std::endl;
 
-  // // To be added later
-  // motor_dynamics();
-
-  float commanded_thrust =
-      motor_thrusts[0] + motor_thrusts[1] + motor_thrusts[2] + motor_thrusts[3];
-
-  float commanded_torque = (motor_thrusts[1] - motor_thrusts[3]) * arm_length_;
-
-  // std::cout << "Net thrust and torque computer by simulator:"
-  //           << commanded_thrust << '\t' << commanded_torque << std::endl;
-
   // Motor dynamics not considered for thrust since position loop much slower
+  float commanded_thrust =
+      commanded_motor_thrusts[0] + commanded_motor_thrusts[1] +
+      commanded_motor_thrusts[2] + commanded_motor_thrusts[3];
+
   actual_thrust = commanded_thrust;
-  // Neglect motor dynamics for now
-  actual_torque = commanded_torque;
+
+  // Useful for logging and comparison
+  float commanded_torque =
+      (commanded_motor_thrusts[1] - commanded_motor_thrusts[3]) * arm_length_;
+
+  // Motor dynamics is considered for attitude control lopp since it's rate is
+  // comparable to the motor dynamics
+  actual_torque =
+      (actual_motor_thrusts[1] - actual_motor_thrusts[3]) * arm_length_;
+
+  std::cout << "Commanded thrust and torque produced by quad:"
+            << commanded_thrust << '\t' << commanded_torque << std::endl;
+
+  std::cout << "Actual thrust and torque produced by quad:" << actual_thrust
+            << '\t' << actual_torque << std::endl;
+
+  // // Neglect motor dynamics for now
+  // actual_torque = commanded_torque;
 
   x_ddot = actual_thrust * sin(beta) - drag_coeff_ * x_dot;
 
@@ -84,9 +91,11 @@ void Quad2D::euler_step(float dt) {
   beta = beta + beta_dot * dt;
   beta_dot = beta_dot + beta_ddot * dt;
 
-  // Motor
-  actual_thrust = actual_thrust_dot * dt + actual_thrust;
-
+  //  motor dynamics
+  for (int i = 0; i < 4; i++) {
+    actual_motor_thrusts[i] =
+        actual_motor_thrusts[i] + actual_motor_thrusts_dot[i] * dt;
+  }
   // std::cout << "z_after_euler_step: " << z << std::endl;
   // std::cout << "z_dot_after_euler_step: " << z_dot << std::endl;
 }

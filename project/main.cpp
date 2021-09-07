@@ -38,24 +38,27 @@ int main() {
 
     // Outer loop
     const float thrust_command =
-        controller.altitude_controller(quad, altitude_target, dt);
+        controller.altitude_controller(quad, altitude_target, 0.01);
 
     const float attitude_command =
-        controller.horizontal_controller(quad, horizontal_target, dt);
+        controller.horizontal_controller(quad, horizontal_target, 0.01);
 
-    // Inner loop
-    const float torque_command =
-        controller.attitude_controller(quad, attitude_command, dt);
+    // Attitude controller runs 10 times faster than position controller
+    for (int i = 0; i < 10; i++) {
 
-    // Convert thrust, torque to motor speeds
-    motor_mixing(motor_commands, thrust_command, torque_command, quad.k_f(),
-                 quad.arm_length());
+      const float torque_command =
+          controller.attitude_controller(quad, attitude_command, dt);
 
-    // Dynamics function that accepts motor commands instead of thrusts
-    quad.new_dynamics(motor_commands);
+      // Convert thrust, torque to motor speeds
+      motor_mixing(motor_commands, thrust_command, torque_command, quad.k_f(),
+                   quad.arm_length());
 
-    // quad.dynamics(ff_thrust, torque_command);
-    quad.euler_step(dt);
+      // Dynamics function that accepts motor commands instead of thrusts
+      quad.new_dynamics(motor_commands);
+
+      // quad.dynamics(ff_thrust, torque_command);
+      quad.euler_step(dt);
+    }
 
     // // Ony for tuning inner angle loop
     // quad.inner_loop_tuning_euler_step(dt);
@@ -78,7 +81,7 @@ int main() {
       plot_var::z_plot[i] = quad.true_z();
       plot_var::x_plot[i] = quad.true_x();
       plot_var::thrust_plot[i] = thrust_command;
-      plot_var::torque_plot[i] = torque_command;
+      // plot_var::torque_plot[i] = torque_command;
       plot_var::beta_plot[i] = quad.true_beta() * (180 / M_PI);
       plot_var::t_plot[i] = i * dt;
     }

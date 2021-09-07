@@ -84,14 +84,18 @@ private:
   // Variables for motor dynamics
 
   // Relation btw square of motor speed and motor thrust
-  const float k_f_ = 6.11 * exp(-8);
+  constexpr static float k_f_ = 6.11e-08;
   // float k_f = yaml_file["k_f"].as<float>();
 
   // Time constant of motor (approximated as 1st order system)
   const float motor_time_constant =
       yaml_file["motor_time_constant"].as<float>();
 
-  float motor_thrusts[4] = {0, 0, 0, 0};
+  const float motor_time_constant_inverse = 1 / motor_time_constant;
+
+  float commanded_motor_thrusts[4] = {0, 0, 0, 0};
+  float actual_motor_thrusts[4] = {0, 0, 0, 0};
+  float actual_motor_thrusts_dot[4] = {0, 0, 0, 0};
 
   // Measured states ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   float x_mes_ = 0;
@@ -107,8 +111,8 @@ public:
   /// Set quadcopter parameters
   void set_initial_conditions(std::string path);
 
-  /// Dynamics of the 2D quadcopter
-  void dynamics(float thrust_input, float torque_input);
+  // /// Dynamics of the 2D quadcopter
+  // void dynamics(float thrust_input, float torque_input);
 
   /// Dynamics function that accepts motor commands instead of thrusts
   void new_dynamics(float motor_speed[4]);
@@ -125,7 +129,7 @@ public:
 private:
   void motor_speed_to_thrust_map(float motor_commands[4]);
 
-  // First order dynamics of BLDC motor
+  // First order dynamics of BLDC motor + propeller pair
   // void motor_dynamics();
 
 public:

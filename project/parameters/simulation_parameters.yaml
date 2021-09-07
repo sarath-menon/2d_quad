@@ -5,7 +5,7 @@ altitude_target: 8
 horizontal_target: 4
 
 # Euler Integration Timestep
-dt: 0.01
+dt: 0.001
 
 # Number of timesteps to be simulated
 euler_steps: 500
