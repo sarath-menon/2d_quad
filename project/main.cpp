@@ -38,16 +38,16 @@ int main() {
 
     // Outer loop
     const float thrust_command =
-        controller.altitude_controller(quad, altitude_target, 0.01);
+        controller.altitude_controller(quad, altitude_target, dt);
 
     const float attitude_command =
-        controller.horizontal_controller(quad, horizontal_target, 0.01);
+        controller.horizontal_controller(quad, horizontal_target, dt);
 
-    // Attitude controller runs 10 times faster than position controller
+    // // // Attitude controller runs 10 times faster than position controller
     for (int i = 0; i < 10; i++) {
 
       const float torque_command =
-          controller.attitude_controller(quad, attitude_command, dt);
+          controller.attitude_controller(quad, attitude_command, dt / 10);
 
       // Convert thrust, torque to motor speeds
       motor_mixing(motor_commands, thrust_command, torque_command, quad.k_f(),
@@ -57,7 +57,7 @@ int main() {
       quad.new_dynamics(motor_commands);
 
       // quad.dynamics(ff_thrust, torque_command);
-      quad.euler_step(dt);
+      quad.euler_step(dt / 10);
     }
 
     // // Ony for tuning inner angle loop

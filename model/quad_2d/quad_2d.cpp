@@ -9,7 +9,7 @@ void Quad2D::motor_speed_to_thrust_map(float motor_commands[4]) {
     // Motor Dynamics
     actual_motor_thrusts_dot[i] =
         (commanded_motor_thrusts[i] - actual_motor_thrusts[i]) /
-        motor_time_constant_inverse;
+        motor_time_constant;
   }
 }
 
@@ -45,6 +45,9 @@ void Quad2D::new_dynamics(float motor_commands[4]) {
       commanded_motor_thrusts[0] + commanded_motor_thrusts[1] +
       commanded_motor_thrusts[2] + commanded_motor_thrusts[3];
 
+  // float actual_thrust = actual_motor_thrusts[0] + actual_motor_thrusts[1] +
+  //                       actual_motor_thrusts[2] + actual_motor_thrusts[3];
+
   actual_thrust = commanded_thrust;
 
   // Useful for logging and comparison
@@ -56,10 +59,10 @@ void Quad2D::new_dynamics(float motor_commands[4]) {
   actual_torque =
       (actual_motor_thrusts[1] - actual_motor_thrusts[3]) * arm_length_;
 
-  std::cout << "Commanded thrust and torque produced by quad:"
-            << commanded_thrust << '\t' << commanded_torque << std::endl;
+  std::cout << "Commanded thrust and torque:" << commanded_thrust << '\t'
+            << commanded_torque << std::endl;
 
-  std::cout << "Actual thrust and torque produced by quad:" << actual_thrust
+  std::cout << "Actual thrust and torque produced by motors:" << actual_thrust
             << '\t' << actual_torque << std::endl;
 
   // // Neglect motor dynamics for now
