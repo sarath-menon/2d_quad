@@ -8,7 +8,7 @@ altitude_plot: true
 
 translation_plot: true
 
-thrust_plot: false
+thrust_plot: true
 
 torque_plot: false
 

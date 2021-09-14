@@ -32,6 +32,7 @@ int main() {
 
   // Outer Loop: Position Control
   for (int i = 0; i < euler_steps; i++) {
+    std::cout << "Timestep: " << i + 1 << '\n';
 
     // Get system state
     quad.sensor_read();
@@ -72,6 +73,8 @@ int main() {
     // std::cout << "Torque Command:" << torque_command << std::endl;
     // std::cout << "Vertical error:" << vertical_error << std::endl;
     // std::cout << "Motor commands:" << motor_commands[0] << std::endl;
+    std::cout << "Max roll torque:" << quad.torque_max();
+    std::cout << std::endl;
 
     if (plot_flag) {
       // Set variables for plotting
@@ -87,7 +90,7 @@ int main() {
       // Publish mocap msg
       mocap_quadcopter msg;
 
-      matrix::Eulerf euler(0, quad.true_beta(), 0);
+      matrix::Eulerf euler(0, -quad.true_beta(), 0);
       matrix::Quatf q_nb(euler);
       // std::cout << "q_w" << q_nb(0);
 
@@ -100,7 +103,6 @@ int main() {
     }
   }
 
-  std::cout << std::endl;
   // Plot the results
 
   if (plot_flag) {

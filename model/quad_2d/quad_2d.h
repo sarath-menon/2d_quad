@@ -68,10 +68,10 @@ private:
   // Maximum thrust can be produced by the motors
   float motor_thrust_min_ = yaml_file["motor_thrust_min"].as<float>();
 
-  // Maximum thrust can be produced by the motors
+  // Maximum thrust can be produced by the quadcopter
   float thrust_max_ = motor_thrust_max_ * 4;
 
-  // Maximum thrust can be produced by the motors
+  // Maximum thrust can be produced by the quadcopter
   float thrust_min_ = motor_thrust_min_ * 4;
 
   // Maximum thrust can be produced by the motors

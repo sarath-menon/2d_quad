@@ -1,7 +1,7 @@
 # Controller Parameters:
 
 # Altitude Target
-altitude_target: 8
+altitude_target: 5
 horizontal_target: 4
 
 # Euler Integration Timestep

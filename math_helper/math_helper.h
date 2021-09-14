@@ -2,7 +2,9 @@
 #include <math.h>
 
 static float limit(float val, const float max, const float min) {
-  val = fmax(val, min);
-  val = fmin(val, max);
+  if (val > max)
+    val = max;
+  else if (val < min)
+    val = min;
   return val;
 }

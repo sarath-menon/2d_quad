@@ -2,7 +2,7 @@
 
 # Initial Position
 x: 0
-z: 1
+z: 4
 
 # Initial Velocity
 x_dot: 0
