@@ -11,4 +11,4 @@ dt: 0.01
 euler_steps: 500
 
 # Fastdds publishers activate
-pose_pub: false
+pose_pub: true

@@ -99,7 +99,7 @@ int main() {
       // msg.orientation_quaternion({0, 0, 0, 1});
       msg.orientation_quaternion({q_nb(1), q_nb(2), q_nb(3), q_nb(0)});
       pose_pub.run(msg);
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      std::this_thread::sleep_for(std::chrono::milliseconds(sim_time));
     }
   }
 
