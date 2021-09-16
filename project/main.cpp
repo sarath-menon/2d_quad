@@ -95,7 +95,7 @@ int main() {
       // std::cout << "q_w" << q_nb(0);
 
       msg.index({(uint32_t)i + 1});
-      msg.position({quad.true_x() * 400, 0, quad.true_z() * 100});
+      msg.position({quad.true_x() * 1000, 0, quad.true_z() * 1000});
       // msg.orientation_quaternion({0, 0, 0, 1});
       msg.orientation_quaternion({q_nb(1), q_nb(2), q_nb(3), q_nb(0)});
       pose_pub.run(msg);

@@ -8,7 +8,7 @@ using namespace mahi::gui;
 using namespace mahi::util;
 
 namespace plot_var {
-const int euler_timesteps = 500;
+const int euler_timesteps = 300;
 
 // Variables to be plotted
 float z_plot[euler_timesteps], x_plot[euler_timesteps],

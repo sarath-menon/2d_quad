@@ -1,7 +1,7 @@
 # Plot Parameters:
 
 # To enable plotting
-plot_flag: false
+plot_flag: true
 
 # To show the plot
 altitude_plot: true
