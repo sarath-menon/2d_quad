@@ -2,6 +2,12 @@
 
 2D quadcopter simulator with plotting and visualization capabilities
 
+## Prerequisites
+
+1. yaml-cpp
+2. fastdds 
+
+
 ## Installation
 
  1. Download the repository
