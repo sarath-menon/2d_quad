@@ -6,7 +6,7 @@
 
  1. Download the repository
  ```
- git https://github.com/sarath-menon/2d_quad.git
+ git clone --recursive https://github.com/sarath-menon/2d_quad.git
  cd 2d_quad
  code .
 ```
