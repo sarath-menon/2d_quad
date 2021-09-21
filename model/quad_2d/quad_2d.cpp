@@ -69,8 +69,6 @@ void Quad2D::new_dynamics(float motor_commands[4]) {
     z_ddot = actual_thrust * cos(beta) - g - drag_coeff_ * z_dot;
 
   beta_ddot = actual_torque / inertia_2d_;
-
-  std::cout << "Angular acceleration:" << beta_ddot << '\n';
 }
 
 void Quad2D::euler_step(float dt) {

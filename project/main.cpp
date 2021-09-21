@@ -73,7 +73,6 @@ int main() {
     // std::cout << "Torque Command:" << torque_command << std::endl;
     // std::cout << "Vertical error:" << vertical_error << std::endl;
     // std::cout << "Motor commands:" << motor_commands[0] << std::endl;
-    std::cout << "Max roll torque:" << quad.torque_max();
     std::cout << std::endl;
 
     if (plot_flag) {
