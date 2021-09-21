@@ -1,10 +1,8 @@
-# gym-gym_pybullet_mobilerobot
+# 2d Quad
 
 2D quadcopter simulator with plotting and visualization capabilities
 
 ## Installation
-
- ## Installation
 
  1. Download the repository
  ```
