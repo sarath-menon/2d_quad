@@ -7,6 +7,13 @@
 1. yaml-cpp
 2. fastdds 
 
+### Additional package installation (only for linux, not mac os)
+
+ ```
+ sudo apt-get install libx11-dev
+ sudo apt-get install xorg-dev libglu1-mesa-dev
+ sudo apt-get install build-essential libgtk-3-dev
+  ```
 
 ## Installation
 
