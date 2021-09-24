@@ -84,8 +84,8 @@ private:
   // Variables for motor dynamics
 
   // Relation btw square of motor speed and motor thrust
-  const float k_f_ = 6.11 * exp(-8);
-  // float k_f = yaml_file["k_f"].as<float>();
+  // const float k_f_ = 6.11e-8;
+  const float k_f_ = yaml_file["k_f"].as<float>();
 
   // Time constant of motor (approximated as 1st order system)
   const float motor_time_constant =
