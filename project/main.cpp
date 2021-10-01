@@ -44,6 +44,9 @@ int main() {
     const float attitude_command =
         controller.horizontal_controller(quad, horizontal_target, dt);
 
+    // For inner loop tuning
+    // const float attitude_command = 0.5;
+
     // Inner loop
     const float torque_command =
         controller.attitude_controller(quad, attitude_command, dt);
@@ -97,7 +100,7 @@ int main() {
       msg.position({quad.true_x() * 1000, 0, quad.true_z() * 1000});
       // msg.orientation_quaternion({0, 0, 0, 1});
       msg.orientation_quaternion({q_nb(1), q_nb(2), q_nb(3), q_nb(0)});
-      pose_pub.run(msg);
+      pose_pub.publish(msg);
       std::this_thread::sleep_for(std::chrono::milliseconds(sim_time));
     }
   }
