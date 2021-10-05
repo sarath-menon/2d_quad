@@ -94,7 +94,6 @@ int main() {
 
       matrix::Eulerf euler(0, -quad.true_beta(), 0);
       matrix::Quatf q_nb(euler);
-      // std::cout << "q_w" << q_nb(0);
 
       msg.index({(uint32_t)i + 1});
       msg.position({quad.true_x() * 1000, 0, quad.true_z() * 1000});
